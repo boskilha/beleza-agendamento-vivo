@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -11,6 +11,20 @@ import { Menu } from "lucide-react";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const navItems = [
     { title: "Home", href: "/" },
@@ -20,18 +34,20 @@ const Header = () => {
   ];
 
   return (
-    <header className="border-b bg-background sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6 py-4">
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-2' : 'bg-transparent py-4'}`}>
+      <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center justify-between">
-          <Link to="/" className="font-bold text-xl">Beleza Vivo</Link>
+          <Link to="/" className={`font-serif text-2xl ${isScrolled ? 'text-purple-900' : 'text-white'}`}>
+            Beleza Vivo
+          </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
+          <nav className="hidden md:flex items-center space-x-10">
             {navItems.map((item) => (
               <Link 
                 key={item.title} 
                 to={item.href} 
-                className="text-foreground hover:text-primary transition-colors"
+                className={`${isScrolled ? 'text-gray-700' : 'text-white'} hover:text-purple-500 transition-colors uppercase tracking-wide text-sm font-medium`}
               >
                 {item.title}
               </Link>
@@ -39,10 +55,10 @@ const Header = () => {
           </nav>
           
           <div className="hidden md:flex items-center space-x-4">
-            <Button asChild variant="outline">
+            <Button asChild variant={isScrolled ? "outline" : "ghost"} className={isScrolled ? "border-purple-800 text-purple-800" : "text-white border-white"}>
               <Link to="/login">Entrar</Link>
             </Button>
-            <Button asChild>
+            <Button asChild className={isScrolled ? "bg-purple-800 hover:bg-purple-900" : "bg-white text-purple-900 hover:bg-gray-100"}>
               <Link to="/register">Cadastrar</Link>
             </Button>
           </div>
@@ -50,30 +66,30 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="outline" size="icon">
+              <Button variant="ghost" size="icon" className={isScrolled ? "text-purple-900" : "text-white"}>
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right">
-              <nav className="flex flex-col space-y-4 mt-8">
+              <nav className="flex flex-col space-y-6 mt-12">
                 {navItems.map((item) => (
                   <Link
                     key={item.title}
                     to={item.href}
-                    className="text-lg font-medium px-2 py-1 hover:text-primary transition-colors"
+                    className="text-lg font-serif tracking-wider hover:text-purple-500 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.title}
                   </Link>
                 ))}
-                <div className="pt-4 space-y-4">
+                <div className="pt-6 space-y-4">
                   <Button asChild className="w-full" variant="outline">
                     <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                       Entrar
                     </Link>
                   </Button>
-                  <Button asChild className="w-full">
+                  <Button asChild className="w-full bg-purple-800 hover:bg-purple-900">
                     <Link to="/register" onClick={() => setIsMenuOpen(false)}>
                       Cadastrar
                     </Link>
