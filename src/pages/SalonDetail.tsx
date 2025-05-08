@@ -54,12 +54,12 @@ const SalonDetail = () => {
       
       try {
         if (id) {
-          // Fetch salon details
+          // Fetch salon details - Using generic type to avoid TypeScript errors
           const { data: salonData, error: salonError } = await supabase
-            .from("salons")
-            .select("*")
-            .eq("id", id)
-            .eq("is_active", true)
+            .from('salons')
+            .select('*')
+            .eq('id', id)
+            .eq('is_active', true)
             .single();
           
           if (salonError) {
@@ -67,32 +67,32 @@ const SalonDetail = () => {
             return;
           }
           
-          setSalon(salonData);
+          setSalon(salonData as unknown as Salon);
           
-          // Fetch salon services
+          // Fetch salon services - Using generic type to avoid TypeScript errors
           const { data: servicesData, error: servicesError } = await supabase
-            .from("services")
-            .select("*")
-            .eq("salon_id", id)
-            .eq("is_active", true);
+            .from('services')
+            .select('*')
+            .eq('salon_id', id)
+            .eq('is_active', true);
           
           if (servicesError) {
             console.error("Error fetching services:", servicesError);
           } else {
-            setServices(servicesData || []);
+            setServices(servicesData as unknown as Service[]);
           }
           
-          // Fetch salon professionals
+          // Fetch salon professionals - Using generic type to avoid TypeScript errors
           const { data: professionalsData, error: professionalsError } = await supabase
-            .from("professionals")
-            .select("*")
-            .eq("salon_id", id)
-            .eq("is_active", true);
+            .from('professionals')
+            .select('*')
+            .eq('salon_id', id)
+            .eq('is_active', true);
           
           if (professionalsError) {
             console.error("Error fetching professionals:", professionalsError);
           } else {
-            setProfessionals(professionalsData || []);
+            setProfessionals(professionalsData as unknown as Professional[]);
           }
         }
       } catch (err) {
@@ -458,7 +458,13 @@ const SalonDetail = () => {
                     </div>
                     
                     <Button asChild variant="link" className="mt-4 w-full">
-                      <Link to="#" onClick={() => document.querySelector('[data-value="services"]')?.click()}>
+                      <Link to="#" onClick={(e) => {
+                        e.preventDefault();
+                        const servicesTab = document.querySelector('[data-value="services"]');
+                        if (servicesTab instanceof HTMLElement) {
+                          servicesTab.click();
+                        }
+                      }}>
                         Ver todos os serviços <ArrowRight className="w-4 h-4 ml-1" />
                       </Link>
                     </Button>
