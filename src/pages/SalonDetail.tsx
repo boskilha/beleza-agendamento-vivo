@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -54,12 +53,14 @@ const SalonDetail = () => {
       
       try {
         if (id) {
-          // Fetch salon details - Using generic type to avoid TypeScript errors
-          const { data: salonData, error: salonError } = await supabase
+          // Use type assertion to work around TypeScript constraints
+          const supabaseAny = supabase as any;
+          
+          // Fetch salon details
+          const { data: salonData, error: salonError } = await supabaseAny
             .from('salons')
             .select('*')
             .eq('id', id)
-            .eq('is_active', true)
             .single();
           
           if (salonError) {
@@ -67,32 +68,30 @@ const SalonDetail = () => {
             return;
           }
           
-          setSalon(salonData as unknown as Salon);
+          setSalon(salonData as Salon);
           
-          // Fetch salon services - Using generic type to avoid TypeScript errors
-          const { data: servicesData, error: servicesError } = await supabase
+          // Fetch salon services
+          const { data: servicesData, error: servicesError } = await supabaseAny
             .from('services')
             .select('*')
-            .eq('salon_id', id)
-            .eq('is_active', true);
+            .eq('salon_id', id);
           
           if (servicesError) {
             console.error("Error fetching services:", servicesError);
           } else {
-            setServices(servicesData as unknown as Service[]);
+            setServices(servicesData as Service[]);
           }
           
-          // Fetch salon professionals - Using generic type to avoid TypeScript errors
-          const { data: professionalsData, error: professionalsError } = await supabase
+          // Fetch salon professionals
+          const { data: professionalsData, error: professionalsError } = await supabaseAny
             .from('professionals')
             .select('*')
-            .eq('salon_id', id)
-            .eq('is_active', true);
+            .eq('salon_id', id);
           
           if (professionalsError) {
             console.error("Error fetching professionals:", professionalsError);
           } else {
-            setProfessionals(professionalsData as unknown as Professional[]);
+            setProfessionals(professionalsData as Professional[]);
           }
         }
       } catch (err) {

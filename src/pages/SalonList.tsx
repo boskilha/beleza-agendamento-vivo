@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,8 +32,9 @@ const SalonList = () => {
       setLoading(true);
       
       try {
-        // Using generic query to avoid TypeScript error with Supabase types
-        let query = supabase.from('salons').select('*');
+        // Using type assertion to work around TypeScript constraints
+        const supabaseAny = supabase as any;
+        let query = supabaseAny.from('salons').select('*');
         
         if (searchTerm) {
           query = query.ilike('name', `%${searchTerm}%`);
@@ -51,7 +51,7 @@ const SalonList = () => {
           return;
         }
         
-        setSalons(data as unknown as Salon[] || []);
+        setSalons(data as Salon[] || []);
       } catch (err) {
         console.error("Error:", err);
       } finally {
