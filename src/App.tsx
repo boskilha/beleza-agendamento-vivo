@@ -11,6 +11,8 @@ import Booking from "./pages/Booking";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import SalonList from "./pages/SalonList";
+import SalonDetail from "./pages/SalonDetail";
 
 // Admin Pages
 import AdminLayout from "./components/Admin/AdminLayout";
@@ -35,6 +37,8 @@ const App = () => (
           <Route path="/booking" element={<Booking />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/salons" element={<SalonList />} />
+          <Route path="/salons/:id" element={<SalonDetail />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>

@@ -1,7 +1,8 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search, Scissors, Calendar } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 const HeroSection = () => {
   return (
@@ -22,20 +23,46 @@ const HeroSection = () => {
         <div className="max-w-2xl text-white">
           <span className="text-lg font-light uppercase tracking-wider mb-2 inline-block">Beleza & Bem-estar</span>
           <h1 className="text-5xl md:text-6xl font-serif font-light mb-6 leading-tight">
-            Transforme sua beleza com nossos tratamentos exclusivos
+            Encontre o salão perfeito para sua beleza
           </h1>
           <p className="text-xl md:text-2xl mb-10 font-light opacity-90 leading-relaxed">
-            Agende seu horário online e desfrute dos melhores serviços de beleza com profissionais qualificados.
+            Compare serviços, preços e avaliações dos melhores salões de beleza da sua região
           </p>
+          
+          <div className="bg-white/10 backdrop-blur-md p-6 rounded-lg mb-8 border border-white/20">
+            <form className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input 
+                  type="text" 
+                  placeholder="Serviço ou salão" 
+                  className="pl-10 bg-white/80 border-0 text-gray-900 h-12"
+                />
+              </div>
+              <Button 
+                asChild
+                size="lg" 
+                className="bg-purple-800 hover:bg-purple-900 rounded-none px-8 h-12"
+              >
+                <Link to="/salons">
+                  Buscar salões
+                </Link>
+              </Button>
+            </form>
+          </div>
+          
           <div className="flex flex-col sm:flex-row gap-4">
             <Button asChild size="lg" className="bg-white text-purple-900 hover:bg-gray-100 rounded-none px-8">
               <Link to="/booking" className="flex items-center gap-2">
+                <Calendar size={18} />
                 Agendar agora
-                <ArrowRight size={18} />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10 rounded-none">
-              <Link to="/services">Ver serviços</Link>
+              <Link to="/services" className="flex items-center gap-2">
+                <Scissors size={18} />
+                Ver serviços
+              </Link>
             </Button>
           </div>
         </div>
