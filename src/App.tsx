@@ -12,6 +12,15 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
+// Admin Pages
+import AdminLayout from "./components/Admin/AdminLayout";
+import Dashboard from "./pages/Admin/Dashboard";
+import Funcionarios from "./pages/Admin/Funcionarios";
+import Servicos from "./pages/Admin/Servicos";
+import Estoque from "./pages/Admin/Estoque";
+import Chat from "./pages/Admin/Chat";
+import Configuracoes from "./pages/Admin/Configuracoes";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -26,6 +35,18 @@ const App = () => (
           <Route path="/booking" element={<Booking />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="funcionarios" element={<Funcionarios />} />
+            <Route path="servicos" element={<Servicos />} />
+            <Route path="estoque" element={<Estoque />} />
+            <Route path="chat" element={<Chat />} />
+            <Route path="configuracoes" element={<Configuracoes />} />
+            <Route index element={<Dashboard />} />
+          </Route>
+          
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
