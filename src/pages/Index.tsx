@@ -31,6 +31,40 @@ const services = [
   }
 ];
 
+// Featured salons for the marketplace
+const featuredSalons = [
+  {
+    id: "1",
+    name: "Estúdio Beauty Arte",
+    description: "Especialistas em coloração e cortes modernos",
+    address: "Rua das Flores, 123",
+    city: "São Paulo",
+    district: "Jardins",
+    rating: 4.8,
+    logo_url: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=500"
+  },
+  {
+    id: "2",
+    name: "Espaço Glamour",
+    description: "Tratamentos capilares e estéticos exclusivos",
+    address: "Av. Paulista, 1500",
+    city: "São Paulo",
+    district: "Bela Vista",
+    rating: 4.5,
+    logo_url: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500"
+  },
+  {
+    id: "3",
+    name: "Salão Premium",
+    description: "Ambiente sofisticado com serviços de primeira linha",
+    address: "Rua Oscar Freire, 250",
+    city: "São Paulo",
+    district: "Pinheiros",
+    rating: 4.9,
+    logo_url: "https://images.unsplash.com/photo-1633681926022-84c23e8cb3d6?w=500"
+  }
+];
+
 const Index = () => {
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50">
@@ -42,27 +76,75 @@ const Index = () => {
         <section className="py-20 px-6 bg-white">
           <div className="max-w-6xl mx-auto text-center">
             <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Bem-vindo ao Beleza Vivo</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Seu refúgio de beleza e bem-estar</h2>
+            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza do Brasil</h2>
             <div className="w-24 h-0.5 bg-purple-800 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
-              Oferecemos uma experiência única de beleza, combinando técnicas modernas e produtos de alta qualidade para 
-              proporcionar resultados excepcionais. Nossa equipe de profissionais qualificados está pronta para cuidar de você.
+              Conectamos você aos melhores profissionais e salões de beleza da sua região.
+              Compare serviços, preços, horários disponíveis e avaliações para encontrar o salão perfeito 
+              e agende seu horário com apenas alguns cliques.
             </p>
             <Button asChild variant="outline" className="border-purple-800 text-purple-800 hover:bg-purple-800 hover:text-white transition-colors rounded-none">
-              <Link to="/services" className="flex items-center gap-2">
-                Conheça nossos serviços
+              <Link to="/salons" className="flex items-center gap-2">
+                Encontrar salões próximos
                 <ArrowRight size={18} />
               </Link>
             </Button>
           </div>
         </section>
         
-        {/* Services Section */}
+        {/* Featured Salons Section */}
         <section className="py-20 px-6 bg-neutral-50">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
+              <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Salões em destaque</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Salões mais bem avaliados</h2>
+              <div className="w-24 h-0.5 bg-purple-800 mx-auto"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredSalons.map((salon) => (
+                <div key={salon.id} className="bg-white rounded-md shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="h-48 bg-gray-200 relative">
+                    <img 
+                      src={salon.logo_url} 
+                      alt={salon.name} 
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-0 right-0 bg-white px-3 py-1 m-2 rounded-full flex items-center">
+                      <span className="text-yellow-500 mr-1">★</span>
+                      <span className="font-medium">{salon.rating}</span>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <h3 className="text-xl font-semibold mb-2">{salon.name}</h3>
+                    <p className="text-gray-600 mb-3">{salon.description}</p>
+                    <div className="flex items-center text-gray-500 mb-4">
+                      <MapPin size={16} className="mr-1" />
+                      <span>{salon.district}, {salon.city}</span>
+                    </div>
+                    <Button asChild className="w-full bg-purple-800 hover:bg-purple-900">
+                      <Link to={`/salons/${salon.id}`}>Ver detalhes</Link>
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-16 text-center">
+              <Button asChild variant="outline" className="border-purple-800 text-purple-800 hover:bg-purple-800 hover:text-white transition-colors rounded-none">
+                <Link to="/salons" className="flex items-center gap-2">
+                  Ver todos os salões
+                  <ArrowRight size={18} />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        {/* Services Section */}
+        <section className="py-20 px-6 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Nossos serviços</span>
-              <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Tratamentos em destaque</h2>
+              <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Serviços mais procurados</h2>
               <div className="w-24 h-0.5 bg-purple-800 mx-auto"></div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -81,50 +163,37 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Why Choose Us */}
-        <section className="py-20 px-6 bg-cover bg-center relative" style={{ backgroundImage: "url('https://spalabele.wpengine.com/wp-content/uploads/2023/07/spacious-spa-interior.jpg')" }}>
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative z-10 max-w-4xl mx-auto text-center text-white">
-            <span className="uppercase tracking-wider text-sm font-medium mb-4 inline-block">Nossa Diferença</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Por que nos escolher?</h2>
-            <div className="w-24 h-0.5 bg-white mx-auto mb-12"></div>
+        {/* How It Works */}
+        <section className="py-20 px-6 bg-neutral-50">
+          <div className="max-w-6xl mx-auto text-center">
+            <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Como funciona</span>
+            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Simples e rápido</h2>
+            <div className="w-24 h-0.5 bg-purple-800 mx-auto mb-16"></div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               <div className="flex flex-col items-center">
-                <div className="w-20 h-20 rounded-full border border-white flex items-center justify-center mb-6">
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-serif mb-3">Profissionais Qualificados</h3>
-                <p className="text-white/80">Nossa equipe é formada por especialistas com anos de experiência</p>
+                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">1</div>
+                <h3 className="text-xl font-serif mb-3">Encontre um salão</h3>
+                <p className="text-gray-600">Busque por localização, serviço ou nome do salão para encontrar opções que atendam às suas necessidades</p>
               </div>
               
               <div className="flex flex-col items-center">
-                <div className="w-20 h-20 rounded-full border border-white flex items-center justify-center mb-6">
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-serif mb-3">Produtos Premium</h3>
-                <p className="text-white/80">Utilizamos apenas produtos de alta qualidade para os melhores resultados</p>
+                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">2</div>
+                <h3 className="text-xl font-serif mb-3">Escolha o serviço</h3>
+                <p className="text-gray-600">Compare preços, avaliações e disponibilidade de diferentes profissionais e serviços</p>
               </div>
               
               <div className="flex flex-col items-center">
-                <div className="w-20 h-20 rounded-full border border-white flex items-center justify-center mb-6">
-                  <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                </div>
-                <h3 className="text-xl font-serif mb-3">Ambiente Acolhedor</h3>
-                <p className="text-white/80">Um espaço pensado para proporcionar conforto e relaxamento</p>
+                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">3</div>
+                <h3 className="text-xl font-serif mb-3">Agende online</h3>
+                <p className="text-gray-600">Escolha o melhor horário para você e confirme seu agendamento em poucos cliques</p>
               </div>
             </div>
             
             <div className="mt-14">
-              <Button asChild size="lg" className="bg-white text-purple-900 hover:bg-gray-100 rounded-none px-8">
-                <Link to="/booking" className="flex items-center gap-2">
-                  Agende agora
+              <Button asChild size="lg" className="bg-purple-800 hover:bg-purple-900 rounded-none px-8">
+                <Link to="/salons" className="flex items-center gap-2">
+                  Começar agora
                   <ArrowRight size={18} />
                 </Link>
               </Button>
