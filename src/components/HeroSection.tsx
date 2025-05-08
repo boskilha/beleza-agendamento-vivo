@@ -10,8 +10,8 @@ const HeroSection = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center z-0" 
         style={{ 
-          backgroundImage: "url('https://spalabele.wpengine.com/wp-content/uploads/2023/07/spa-hero.jpg')",
-          backgroundPosition: "center 30%"
+          backgroundImage: "url('https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80')",
+          backgroundPosition: "center"
         }}
       >
         <div className="absolute inset-0 bg-black/40"></div>
