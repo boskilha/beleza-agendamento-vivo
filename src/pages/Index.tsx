@@ -1,4 +1,3 @@
-
 import { ArrowRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -61,7 +60,7 @@ const featuredSalons = [
     city: "São Paulo",
     district: "Pinheiros",
     rating: 4.9,
-    logo_url: "https://images.unsplash.com/photo-1633681926022-84c23e8cb3d6?w=500"
+    logo_url: "https://i0.wp.com/novodianoticias.com.br/wp-content/uploads/2021/10/Prime-Pro-Beauty-Jundiai-ganha-novo-conceito-de-salao-de-beleza-1.png"
   }
 ];
 
