@@ -89,7 +89,7 @@ const AdminSidebar = () => {
                     relative group h-12 rounded-xl transition-all duration-200 ease-in-out
                     ${location.pathname === item.path 
                       ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/25 scale-105' 
-                      : 'text-purple-100 hover:bg-purple-700/50 hover:text-white hover:scale-102'
+                      : 'text-purple-100 hover:bg-white hover:text-purple-800 hover:scale-102'
                     }
                     data-[active=true]:bg-gradient-to-r data-[active=true]:from-purple-500 data-[active=true]:to-purple-600
                     data-[active=true]:text-white data-[active=true]:shadow-lg data-[active=true]:shadow-purple-500/25

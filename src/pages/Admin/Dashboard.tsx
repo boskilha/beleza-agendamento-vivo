@@ -21,47 +21,47 @@ const Dashboard = () => {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="bg-gradient-to-br from-purple-100 to-purple-200 border-purple-200 shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Agendamentos Hoje</CardTitle>
-            <CalendarDays className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-purple-800">Agendamentos Hoje</CardTitle>
+            <CalendarDays className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-muted-foreground">+2% em relação a ontem</p>
+            <div className="text-2xl font-bold text-purple-800">8</div>
+            <p className="text-xs text-purple-600">+2% em relação a ontem</p>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-gradient-to-br from-blue-100 to-purple-200 border-blue-200 shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Novos Clientes</CardTitle>
-            <Users2 className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-blue-800">Novos Clientes</CardTitle>
+            <Users2 className="h-4 w-4 text-blue-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">5</div>
-            <p className="text-xs text-muted-foreground">+12% em relação à semana passada</p>
+            <div className="text-2xl font-bold text-blue-800">5</div>
+            <p className="text-xs text-blue-600">+12% em relação à semana passada</p>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-gradient-to-br from-pink-100 to-purple-200 border-pink-200 shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Serviços Cadastrados</CardTitle>
-            <ClipboardList className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-pink-800">Serviços Cadastrados</CardTitle>
+            <ClipboardList className="h-4 w-4 text-pink-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">4</div>
-            <p className="text-xs text-muted-foreground">de 5 disponíveis no plano Free</p>
+            <div className="text-2xl font-bold text-pink-800">4</div>
+            <p className="text-xs text-pink-600">de 5 disponíveis no plano Free</p>
           </CardContent>
         </Card>
         
-        <Card>
+        <Card className="bg-gradient-to-br from-emerald-100 to-purple-200 border-emerald-200 shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Faturamento Mensal</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-emerald-800">Faturamento Mensal</CardTitle>
+            <TrendingUp className="h-4 w-4 text-emerald-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">R$ 2.350</div>
-            <p className="text-xs text-muted-foreground">+8% em relação ao mês anterior</p>
+            <div className="text-2xl font-bold text-emerald-800">R$ 2.350</div>
+            <p className="text-xs text-emerald-600">+8% em relação ao mês anterior</p>
           </CardContent>
         </Card>
       </div>
