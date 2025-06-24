@@ -39,25 +39,28 @@ const Funcionarios = () => {
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Equipe de Profissionais</CardTitle>
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Equipe de Profissionais</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Cargo</TableHead>
-                <TableHead>Telefone</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Serviços Atribuídos</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+              <TableRow className="bg-purple-100">
+                <TableHead className="text-purple-800">Nome</TableHead>
+                <TableHead className="text-purple-800">Cargo</TableHead>
+                <TableHead className="text-purple-800">Telefone</TableHead>
+                <TableHead className="text-purple-800">Email</TableHead>
+                <TableHead className="text-purple-800">Serviços Atribuídos</TableHead>
+                <TableHead className="text-purple-800 text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {funcionarios.map((funcionario) => (
-                <TableRow key={funcionario.id}>
+              {funcionarios.map((funcionario, i) => (
+                <TableRow
+                  key={funcionario.id}
+                  className={i % 2 === 0 ? "bg-purple-50" : "bg-white"}
+                >
                   <TableCell className="font-medium">{funcionario.nome}</TableCell>
                   <TableCell>{funcionario.cargo}</TableCell>
                   <TableCell>{funcionario.telefone}</TableCell>

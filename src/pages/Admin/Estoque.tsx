@@ -67,25 +67,28 @@ const Estoque = () => {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Produtos em Estoque</CardTitle>
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Produtos em Estoque</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Categoria</TableHead>
-                <TableHead>Quantidade</TableHead>
-                <TableHead>Valor Unitário</TableHead>
-                <TableHead>Valor Total</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+              <TableRow className="bg-purple-100">
+                <TableHead className="text-purple-800">Nome</TableHead>
+                <TableHead className="text-purple-800">Categoria</TableHead>
+                <TableHead className="text-purple-800">Quantidade</TableHead>
+                <TableHead className="text-purple-800">Valor Unitário</TableHead>
+                <TableHead className="text-purple-800">Valor Total</TableHead>
+                <TableHead className="text-purple-800 text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {produtos.map((produto) => (
-                <TableRow key={produto.id} className={produto.quantidade <= produto.alerta ? "bg-red-50" : ""}>
+              {produtos.map((produto, i) => (
+                <TableRow
+                  key={produto.id}
+                  className={`${i % 2 === 0 ? "bg-purple-50" : "bg-white"} ${produto.quantidade <= produto.alerta ? "border-l-4 border-red-500" : ""}`}
+                >
                   <TableCell className="font-medium">{produto.nome}</TableCell>
                   <TableCell>{produto.categoria}</TableCell>
                   <TableCell className={produto.quantidade <= produto.alerta ? "text-red-600 font-medium" : ""}>

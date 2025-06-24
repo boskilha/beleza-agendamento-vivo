@@ -51,24 +51,27 @@ const Servicos = () => {
         </div>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Serviços Disponíveis</CardTitle>
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Serviços Disponíveis</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Nome</TableHead>
-                <TableHead>Preço</TableHead>
-                <TableHead>Duração (min)</TableHead>
-                <TableHead>Descrição</TableHead>
-                <TableHead className="text-right">Ações</TableHead>
+              <TableRow className="bg-purple-100">
+                <TableHead className="text-purple-800">Nome</TableHead>
+                <TableHead className="text-purple-800">Preço</TableHead>
+                <TableHead className="text-purple-800">Duração (min)</TableHead>
+                <TableHead className="text-purple-800">Descrição</TableHead>
+                <TableHead className="text-purple-800 text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {servicos.map((servico) => (
-                <TableRow key={servico.id}>
+              {servicos.map((servico, i) => (
+                <TableRow
+                  key={servico.id}
+                  className={i % 2 === 0 ? "bg-purple-50" : "bg-white"}
+                >
                   <TableCell className="font-medium">{servico.nome}</TableCell>
                   <TableCell>R$ {servico.preco.toFixed(2)}</TableCell>
                   <TableCell>{servico.duracao}</TableCell>
