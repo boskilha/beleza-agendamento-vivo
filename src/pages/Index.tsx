@@ -60,7 +60,7 @@ const featuredSalons = [
     city: "São Paulo",
     district: "Pinheiros",
     rating: 4.9,
-    logo_url: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
+    logo_url: "/salao-premium-nova.jpg"
   }
 ];
 
