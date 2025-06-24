@@ -60,11 +60,7 @@ const featuredSalons = [
     city: "São Paulo",
     district: "Pinheiros",
     rating: 4.9,
-<<<<<<< Updated upstream
-    logo_url: "https://i0.wp.com/novodianoticias.com.br/wp-content/uploads/2021/10/Prime-Pro-Beauty-Jundiai-ganha-novo-conceito-de-salao-de-beleza-1.png"
-=======
     logo_url: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80"
->>>>>>> Stashed changes
   }
 ];
 
