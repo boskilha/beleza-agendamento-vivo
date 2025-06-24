@@ -1,8 +1,38 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarDays, Users2, ClipboardList, TrendingUp } from "lucide-react";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+
+const metricCards = [
+  {
+    title: "Agendamentos Hoje",
+    value: "8",
+    icon: <CalendarDays className="h-8 w-8 text-white" />,
+    bg: "from-purple-500 to-purple-700",
+    info: "+2% em relação a ontem"
+  },
+  {
+    title: "Novos Clientes",
+    value: "5",
+    icon: <Users2 className="h-8 w-8 text-white" />,
+    bg: "from-pink-500 to-pink-700",
+    info: "+12% em relação à semana passada"
+  },
+  {
+    title: "Serviços Cadastrados",
+    value: "4",
+    icon: <ClipboardList className="h-8 w-8 text-white" />,
+    bg: "from-blue-500 to-blue-700",
+    info: "de 5 disponíveis no plano Free"
+  },
+  {
+    title: "Faturamento Mensal",
+    value: "R$ 2.350",
+    icon: <TrendingUp className="h-8 w-8 text-white" />,
+    bg: "from-green-500 to-green-700",
+    info: "+8% em relação ao mês anterior"
+  }
+];
 
 const Dashboard = () => {
   // Sample data for demonstration
@@ -14,12 +44,13 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Visão geral do seu salão de beleza</p>
+    <div className="min-h-screen bg-gradient-to-br from-neutral-100 to-purple-50 p-6">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight text-purple-800">Dashboard</h1>
+        <p className="text-lg text-purple-500">Visão geral do seu salão de beleza</p>
       </div>
 
+<<<<<<< Updated upstream
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="bg-gradient-to-br from-purple-100 to-purple-200 border-purple-200 shadow-md">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -64,35 +95,54 @@ const Dashboard = () => {
             <p className="text-xs text-emerald-600">+8% em relação ao mês anterior</p>
           </CardContent>
         </Card>
+=======
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        {metricCards.map((card, idx) => (
+          <div
+            key={card.title}
+            className={`rounded-xl shadow-lg p-3 flex flex-col justify-between bg-gradient-to-br ${card.bg} transition-transform hover:scale-105 min-h-[110px]`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-base font-medium text-white">{card.title}</span>
+              {React.cloneElement(card.icon, { className: "h-6 w-6 text-white" })}
+            </div>
+            <div className="text-xl font-bold text-white mb-1">{card.value}</div>
+            <p className="text-xs text-purple-100">{card.info}</p>
+          </div>
+        ))}
+>>>>>>> Stashed changes
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Próximos Agendamentos</CardTitle>
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Próximos Agendamentos</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Cliente</TableHead>
-                <TableHead>Serviço</TableHead>
-                <TableHead>Data</TableHead>
-                <TableHead>Horário</TableHead>
-                <TableHead>Status</TableHead>
+              <TableRow className="bg-purple-100">
+                <TableHead className="text-purple-800">Cliente</TableHead>
+                <TableHead className="text-purple-800">Serviço</TableHead>
+                <TableHead className="text-purple-800">Data</TableHead>
+                <TableHead className="text-purple-800">Horário</TableHead>
+                <TableHead className="text-purple-800">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {recentAppointments.map((appointment) => (
-                <TableRow key={appointment.id}>
+              {recentAppointments.map((appointment, i) => (
+                <TableRow
+                  key={appointment.id}
+                  className={i % 2 === 0 ? "bg-purple-50" : "bg-white"}
+                >
                   <TableCell className="font-medium">{appointment.client}</TableCell>
                   <TableCell>{appointment.service}</TableCell>
                   <TableCell>{appointment.date}</TableCell>
                   <TableCell>{appointment.time}</TableCell>
                   <TableCell>
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs ${
+                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                       appointment.status === "Confirmado" 
-                      ? "bg-green-100 text-green-800" 
-                      : "bg-yellow-100 text-yellow-800"
+                        ? "bg-green-100 text-green-800" 
+                        : "bg-yellow-100 text-yellow-800"
                     }`}>
                       {appointment.status}
                     </span>

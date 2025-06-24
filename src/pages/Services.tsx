@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import ServiceCard from "@/components/ServiceCard";
@@ -35,8 +34,8 @@ const allServices = [
     id: 4,
     title: "Coloração",
     description: "Novas cores para um novo visual",
-    price: "A partir de R$120",
-    image: "/placeholder.svg",
+    price: "A partir de R$200",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
     category: "cabelo"
   },
   {
@@ -44,7 +43,7 @@ const allServices = [
     title: "Massagem Relaxante",
     description: "Alivia tensão e promove bem-estar",
     price: "A partir de R$150",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
     category: "corpo"
   },
   {
@@ -52,7 +51,7 @@ const allServices = [
     title: "Depilação",
     description: "Técnicas modernas para pele macia",
     price: "A partir de R$40",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
     category: "corpo"
   },
 ];
