@@ -101,7 +101,9 @@ const HeroSection = () => {
                     backgroundImage: `url('${slide.image}')`,
                     backgroundPosition: "center"
                   }}
-                ></div>
+                >
+                  <div className="absolute inset-0 bg-black/40"></div>
+                </div>
                 
                 {/* Content overlay */}
                 <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
