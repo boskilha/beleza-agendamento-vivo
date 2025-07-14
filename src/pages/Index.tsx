@@ -74,7 +74,7 @@ const Index = () => {
         {/* Welcome Section */}
         <section className="py-20 px-6 bg-white">
           <div className="max-w-6xl mx-auto text-center">
-            <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Bem-vindo ao Beleza Vivo</span>
+            <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Bem-vindo ao Ello</span>
             <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza do Brasil</h2>
             <div className="w-24 h-0.5 bg-purple-800 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">

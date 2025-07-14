@@ -8,7 +8,7 @@ const Footer = () => {
         {/* Top Footer */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 px-6 py-16 border-b border-gray-800">
           <div className="md:col-span-1">
-            <h3 className="text-2xl font-serif mb-6">Beleza Vivo</h3>
+            <h3 className="text-2xl font-serif mb-6">Ello</h3>
             <p className="text-gray-300 mb-6">
               Transformando sua beleza, realçando sua confiança com cuidados exclusivos.
             </p>
@@ -81,7 +81,7 @@ const Footer = () => {
                 <svg className="w-5 h-5 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
-                <span>contato@belezavivo.com</span>
+                <span>contato@ello.com</span>
               </p>
               <p className="flex items-start">
                 <svg className="w-5 h-5 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -95,7 +95,7 @@ const Footer = () => {
         
         {/* Bottom Footer */}
         <div className="px-6 py-8 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} Beleza Vivo. Todos os direitos reservados.</p>
+          <p>© {new Date().getFullYear()} Ello. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

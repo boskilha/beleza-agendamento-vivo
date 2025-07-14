@@ -23,7 +23,7 @@ const Header = () => {
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-serif text-2xl font-medium tracking-tight text-purple-800">
-              Beleza Vivo
+              Ello
             </span>
           </Link>
         </div>

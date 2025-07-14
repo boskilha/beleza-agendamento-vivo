@@ -32,7 +32,7 @@ const Configuracoes = () => {
               <div className="grid gap-4 py-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="nome-salao">Nome do Salão</Label>
-                  <Input id="nome-salao" defaultValue="Beleza Vivo" />
+                  <Input id="nome-salao" defaultValue="Ello" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="telefone">Telefone</Label>
@@ -40,7 +40,7 @@ const Configuracoes = () => {
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" defaultValue="contato@belezavivo.com" />
+                  <Input id="email" defaultValue="contato@ello.com" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="endereco">Endereço</Label>
@@ -51,14 +51,14 @@ const Configuracoes = () => {
                   <textarea
                     id="descricao"
                     className="min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    defaultValue="Beleza Vivo é um salão especializado em cortes, tratamentos capilares e serviços de estética, oferecendo atendimento personalizado com profissionais qualificados."
+                    defaultValue="Ello é um salão especializado em cortes, tratamentos capilares e serviços de estética, oferecendo atendimento personalizado com profissionais qualificados."
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
                   <Label htmlFor="logo">Logo do Salão</Label>
                   <div className="flex items-center gap-4">
                     <div className="h-16 w-16 rounded-md bg-purple-800 flex items-center justify-center text-white font-serif text-xl">
-                      BV
+                      E
                     </div>
                     <Button variant="outline">Alterar Logo</Button>
                   </div>
