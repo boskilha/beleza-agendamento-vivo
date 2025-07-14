@@ -27,8 +27,7 @@ const HeroSection = () => {
       buttonText: "Buscar Serviços",
       route: "/servicos",
       primaryAction: "Agendar Agora",
-      secondaryAction: "Ver Serviços",
-      gradient: "from-purple-600/80 to-pink-600/80"
+      secondaryAction: "Ver Serviços"
     },
     {
       id: 2,
@@ -41,8 +40,7 @@ const HeroSection = () => {
       buttonText: "Buscar Produtos",
       route: "/marketplace",
       primaryAction: "Explorar Produtos",
-      secondaryAction: "Ver Artesãos",
-      gradient: "from-emerald-600/80 to-cyan-600/80"
+      secondaryAction: "Ver Artesãos"
     },
     {
       id: 3,
@@ -55,8 +53,7 @@ const HeroSection = () => {
       buttonText: "Buscar Parceiros",
       route: "/b2b",
       primaryAction: "Seja Parceiro",
-      secondaryAction: "Portal B2B",
-      gradient: "from-blue-600/80 to-indigo-600/80"
+      secondaryAction: "Portal B2B"
     }
   ];
 
@@ -104,9 +101,7 @@ const HeroSection = () => {
                     backgroundImage: `url('${slide.image}')`,
                     backgroundPosition: "center"
                   }}
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`}></div>
-                </div>
+                ></div>
                 
                 {/* Content overlay */}
                 <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 w-full">
