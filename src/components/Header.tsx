@@ -1,32 +1,21 @@
-
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { MenuIcon, X, ShoppingCart, MapPin, Store, Users, Package } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import type { RootState } from "@/store/store";
-
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
-
-  return (
-    <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md">
+  return <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md">
       <div className="container flex items-center justify-between py-4">
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-2">
-            <span className="font-serif text-2xl font-medium tracking-tight text-purple-800">
+            <span className="font-serif font-medium tracking-tight text-purple-800 text-4xl">
               Ello
             </span>
           </Link>
@@ -37,19 +26,14 @@ const Header = () => {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <Link to="/">
-                  <NavigationMenuLink className={cn(
-                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50",
-                    location.pathname === "/" && "bg-accent/50"
-                  )}>
+                  <NavigationMenuLink className={cn("group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50", location.pathname === "/" && "bg-accent/50")}>
                     Início
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <NavigationMenuTrigger 
-                  className={location.pathname.startsWith("/services") && "bg-accent/50"}
-                >
+                <NavigationMenuTrigger className={location.pathname.startsWith("/services") && "bg-accent/50"}>
                   Serviços
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -74,9 +58,7 @@ const Header = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger 
-                  className={location.pathname.startsWith("/marketplace") && "bg-accent/50"}
-                >
+                <NavigationMenuTrigger className={location.pathname.startsWith("/marketplace") && "bg-accent/50"}>
                   Marketplace
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -101,9 +83,7 @@ const Header = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger 
-                  className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor")) && "bg-accent/50"}
-                >
+                <NavigationMenuTrigger className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor")) && "bg-accent/50"}>
                   Para Empresas
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -145,11 +125,9 @@ const Header = () => {
           <Button variant="ghost" size="icon" className="relative" asChild>
             <Link to="/marketplace/cart">
               <ShoppingCart className="h-5 w-5" />
-              {cartItemsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              {cartItemsCount > 0 && <span className="absolute -top-1 -right-1 bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemsCount}
-                </span>
-              )}
+                </span>}
               <span className="sr-only">Carrinho ({cartItemsCount})</span>
             </Link>
           </Button>
@@ -162,96 +140,52 @@ const Header = () => {
           </Button>
         </div>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
+        <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X /> : <MenuIcon />}
         </Button>
       </div>
 
-      {mobileMenuOpen && (
-        <div className="px-4 py-3 lg:hidden bg-white/95 backdrop-blur-md border-t">
+      {mobileMenuOpen && <div className="px-4 py-3 lg:hidden bg-white/95 backdrop-blur-md border-t">
           <nav className="flex flex-col space-y-3">
-            <Link
-              to="/"
-              className="block py-2 text-center rounded-md hover:bg-accent"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/" className="block py-2 text-center rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
               Início
             </Link>
             
             <div className="space-y-2">
               <div className="text-sm font-medium text-muted-foreground px-2">Serviços</div>
-              <Link
-                to="/services"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/services" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Todos os Serviços
               </Link>
-              <Link
-                to="/salons"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/salons" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Salões de Beleza
               </Link>
-              <Link
-                to="/booking"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/booking" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Agendar Serviço
               </Link>
             </div>
 
             <div className="space-y-2">
               <div className="text-sm font-medium text-muted-foreground px-2">Marketplace</div>
-              <Link
-                to="/marketplace"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/marketplace" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Todos os Produtos
               </Link>
-              <Link
-                to="/marketplace?mumbuca=true"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/marketplace?mumbuca=true" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20" onClick={() => setMobileMenuOpen(false)}>
                 🪙 Mumbuca Aceita
               </Link>
-              <Link
-                to="/marketplace/cart"
-                className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/marketplace/cart" className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 <span>Carrinho</span>
-                {cartItemsCount > 0 && (
-                  <span className="bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center mr-2">
+                {cartItemsCount > 0 && <span className="bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center mr-2">
                     {cartItemsCount}
-                  </span>
-                )}
+                  </span>}
               </Link>
             </div>
 
             <div className="space-y-2">
               <div className="text-sm font-medium text-muted-foreground px-2">Para Empresas</div>
-              <Link
-                to="/lojista/dashboard"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/lojista/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Seja um Lojista
               </Link>
-              <Link
-                to="/fornecedor/dashboard"
-                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
-                onClick={() => setMobileMenuOpen(false)}
-              >
+              <Link to="/fornecedor/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Portal do Fornecedor
               </Link>
             </div>
@@ -269,36 +203,27 @@ const Header = () => {
               </Button>
             </div>
           </nav>
-        </div>
-      )}
-    </header>
-  );
+        </div>}
+    </header>;
 };
-
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { title: string }
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
+const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a"> & {
+  title: string;
+}>(({
+  className,
+  title,
+  children,
+  ...props
+}, ref) => {
+  return <li>
       <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
+        <a ref={ref} className={cn("block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground", className)} {...props}>
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
         </a>
       </NavigationMenuLink>
-    </li>
-  );
+    </li>;
 });
 ListItem.displayName = "ListItem";
-
 export default Header;
