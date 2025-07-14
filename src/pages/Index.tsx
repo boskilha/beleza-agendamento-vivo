@@ -1,7 +1,9 @@
-import { ArrowRight, MapPin } from "lucide-react";
+import { ArrowRight, MapPin, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 import ServiceCard from "@/components/ServiceCard";
+import ProductCard, { Product } from "@/components/marketplace/ProductCard";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -27,6 +29,46 @@ const services = [
     description: "Rejuvenesça sua pele com tratamentos especializados que combinam tecnologia e produtos naturais.",
     price: "A partir de R$80",
     image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+  }
+];
+
+// Produtos em destaque para o marketplace
+const featuredProducts: Product[] = [
+  {
+    id: "1",
+    name: "Colar Artesanal de Prata",
+    price: 89.90,
+    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500",
+    category: "Joias",
+    seller: "Atelier Maria",
+    rating: 4.8,
+    distance: 2.3,
+    description: "Colar artesanal feito à mão com prata 925 e pedras naturais de Maricá",
+    stock: 5
+  },
+  {
+    id: "2",
+    name: "Vestido Boho Chic",
+    price: 159.90,
+    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500",
+    category: "Moda",
+    seller: "Boutique Maricá",
+    rating: 4.5,
+    distance: 1.8,
+    description: "Vestido estilo boho chic perfeito para o verão, tecido linho natural",
+    stock: 3
+  },
+  {
+    id: "3",
+    name: "Sabonete Natural Lavanda",
+    price: 24.90,
+    image: "https://images.unsplash.com/photo-1556228578-dd6b7b2c7d34?w=500",
+    category: "Cosméticos",
+    seller: "Natureza Viva",
+    rating: 4.9,
+    distance: 0.9,
+    description: "Sabonete artesanal com óleo essencial de lavanda, ideal para pele sensível",
+    stock: 15
   }
 ];
 
@@ -75,19 +117,69 @@ const Index = () => {
         <section className="py-20 px-6 bg-white">
           <div className="max-w-6xl mx-auto text-center">
             <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Bem-vindo ao Ello</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza do Brasil</h2>
+            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza e produtos locais de Maricá</h2>
             <div className="w-24 h-0.5 bg-purple-800 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
-              Conectamos você aos melhores profissionais e salões de beleza da sua região.
-              Compare serviços, preços, horários disponíveis e avaliações para encontrar o salão perfeito 
-              e agende seu horário com apenas alguns cliques.
+              Conectamos você aos melhores profissionais, salões de beleza e produtos artesanais da nossa região.
+              Compare serviços, preços, horários disponíveis e descubra produtos únicos feitos por artesãos locais.
             </p>
-            <Button asChild variant="outline" className="border-purple-800 text-purple-800 hover:bg-purple-800 hover:text-white transition-colors rounded-none">
-              <Link to="/salons" className="flex items-center gap-2">
-                Encontrar salões próximos
-                <ArrowRight size={18} />
-              </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild variant="outline" className="border-purple-800 text-purple-800 hover:bg-purple-800 hover:text-white transition-colors rounded-none">
+                <Link to="/salons" className="flex items-center gap-2">
+                  Encontrar salões próximos
+                  <ArrowRight size={18} />
+                </Link>
+              </Button>
+              <Button asChild className="bg-purple-800 hover:bg-purple-900 rounded-none">
+                <Link to="/marketplace" className="flex items-center gap-2">
+                  <ShoppingBag size={18} />
+                  Explorar marketplace
+                  <ArrowRight size={18} />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Mumbuca Banner */}
+        <section className="py-12 px-6 bg-gradient-to-r from-green-600 to-green-700 text-white">
+          <div className="max-w-6xl mx-auto text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Badge className="bg-white text-green-600 text-sm font-medium px-3 py-1">
+                Novidade
+              </Badge>
+              <h3 className="text-2xl font-bold">Pagamento com Moeda Mumbuca</h3>
+            </div>
+            <p className="text-lg mb-6 opacity-90">
+              Agora você pode pagar com a moeda local de Maricá e fortalecer nossa economia!
+            </p>
+            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
+              Saiba mais sobre a Mumbuca
             </Button>
+          </div>
+        </section>
+        
+        {/* Featured Products */}
+        <section className="py-20 px-6 bg-neutral-50">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Produtos locais</span>
+              <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">Artesanato e produtos de Maricá</h2>
+              <div className="w-24 h-0.5 bg-purple-800 mx-auto"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            <div className="mt-16 text-center">
+              <Button asChild variant="outline" className="border-purple-800 text-purple-800 hover:bg-purple-800 hover:text-white transition-colors rounded-none">
+                <Link to="/marketplace" className="flex items-center gap-2">
+                  Ver todos os produtos
+                  <ArrowRight size={18} />
+                </Link>
+              </Button>
+            </div>
           </div>
         </section>
         
