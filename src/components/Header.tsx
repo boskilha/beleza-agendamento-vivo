@@ -1,8 +1,9 @@
 
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { MenuIcon, X } from "lucide-react";
+import { MenuIcon, X, ShoppingCart, MapPin, Store, Users, Package } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,10 +13,13 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import type { RootState } from "@/store/store";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md">
@@ -43,19 +47,8 @@ const Header = () => {
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <Link to="/salons">
-                  <NavigationMenuLink className={cn(
-                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50",
-                    location.pathname.startsWith("/salons") && "bg-accent/50"
-                  )}>
-                    Salões
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              
-              <NavigationMenuItem>
                 <NavigationMenuTrigger 
-                  className={location.pathname === "/services" && "bg-accent/50"}
+                  className={location.pathname.startsWith("/services") && "bg-accent/50"}
                 >
                   Serviços
                 </NavigationMenuTrigger>
@@ -64,45 +57,103 @@ const Header = () => {
                     <ListItem href="/services" title="Todos os Serviços">
                       Conheça todos os nossos serviços de beleza e bem-estar
                     </ListItem>
-                    <ListItem href="/services?category=hair" title="Cabelo">
-                      Corte, coloração, tratamento e finalização
+                    <ListItem href="/salons" title="Salões de Beleza">
+                      Encontre os melhores salões próximos a você
                     </ListItem>
-                    <ListItem href="/services?category=face" title="Rosto">
-                      Limpeza de pele, tratamentos faciais e maquiagem
+                    <ListItem href="/services?category=massage" title="Massagem & Relaxamento">
+                      Massagens terapêuticas e relaxantes
                     </ListItem>
-                    <ListItem href="/services?category=nails" title="Unhas">
-                      Manicure, pedicure, esmaltação em gel
+                    <ListItem href="/services?category=aesthetic" title="Estética & Bem-estar">
+                      Tratamentos estéticos e de bem-estar
+                    </ListItem>
+                    <ListItem href="/booking" title="Agendar Serviço">
+                      Reserve seu horário agora mesmo
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
-                <Link to="/booking">
-                  <NavigationMenuLink className={cn(
-                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50",
-                    location.pathname === "/booking" && "bg-accent/50"
-                  )}>
-                    Agendar
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuTrigger 
+                  className={location.pathname.startsWith("/marketplace") && "bg-accent/50"}
+                >
+                  Marketplace
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <ListItem href="/marketplace" title="Todos os Produtos">
+                      Explore nossa seleção completa de produtos locais
+                    </ListItem>
+                    <ListItem href="/marketplace?category=fashion" title="Moda & Acessórios">
+                      Roupas, bolsas e acessórios exclusivos
+                    </ListItem>
+                    <ListItem href="/marketplace?category=jewelry" title="Joias & Artesanato">
+                      Peças únicas feitas por artesãos locais
+                    </ListItem>
+                    <ListItem href="/marketplace?category=cosmetics" title="Cosméticos Locais">
+                      Produtos de beleza artesanais e naturais
+                    </ListItem>
+                    <ListItem href="/marketplace?mumbuca=true" title="🪙 Mumbuca Aceita" className="bg-accent/20">
+                      Produtos que aceitam moeda social Mumbuca
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
-                <Link to="/admin/dashboard">
-                  <NavigationMenuLink className={cn(
-                    "group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50",
-                    location.pathname.startsWith("/admin") && "bg-accent/50"
-                  )}>
-                    Admin
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuTrigger 
+                  className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor")) && "bg-accent/50"}
+                >
+                  Para Empresas
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
+                    <ListItem href="/lojista/dashboard" title="Seja um Lojista">
+                      <div className="flex items-center gap-2">
+                        <Store className="h-4 w-4" />
+                        Venda seus produtos no marketplace
+                      </div>
+                    </ListItem>
+                    <ListItem href="/fornecedor/dashboard" title="Portal do Fornecedor">
+                      <div className="flex items-center gap-2">
+                        <Package className="h-4 w-4" />
+                        Fornecimento B2B para lojistas
+                      </div>
+                    </ListItem>
+                    <ListItem href="/fornecedor/catalogo" title="Catálogo B2B">
+                      <div className="flex items-center gap-2">
+                        <Users className="h-4 w-4" />
+                        Acesse nosso catálogo de fornecedores
+                      </div>
+                    </ListItem>
+                    <ListItem href="/admin/dashboard" title="Painel Admin">
+                      Sistema de administração e controle
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
         <div className="hidden lg:flex items-center space-x-2">
+          <Button variant="ghost" size="icon" className="relative">
+            <MapPin className="h-5 w-5" />
+            <span className="sr-only">Localização</span>
+          </Button>
+          
+          <Button variant="ghost" size="icon" className="relative" asChild>
+            <Link to="/marketplace/cart">
+              <ShoppingCart className="h-5 w-5" />
+              {cartItemsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartItemsCount}
+                </span>
+              )}
+              <span className="sr-only">Carrinho ({cartItemsCount})</span>
+            </Link>
+          </Button>
+
           <Button variant="outline" asChild>
             <Link to="/login">Entrar</Link>
           </Button>
@@ -122,7 +173,7 @@ const Header = () => {
       </div>
 
       {mobileMenuOpen && (
-        <div className="px-4 py-3 lg:hidden">
+        <div className="px-4 py-3 lg:hidden bg-white/95 backdrop-blur-md border-t">
           <nav className="flex flex-col space-y-3">
             <Link
               to="/"
@@ -131,35 +182,81 @@ const Header = () => {
             >
               Início
             </Link>
-            <Link
-              to="/salons"
-              className="block py-2 text-center rounded-md hover:bg-accent"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Salões
-            </Link>
-            <Link
-              to="/services"
-              className="block py-2 text-center rounded-md hover:bg-accent"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Serviços
-            </Link>
-            <Link
-              to="/booking"
-              className="block py-2 text-center rounded-md hover:bg-accent"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Agendar
-            </Link>
-            <Link
-              to="/admin/dashboard"
-              className="block py-2 text-center rounded-md hover:bg-accent"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Admin
-            </Link>
-            <div className="pt-2 flex flex-col gap-2">
+            
+            <div className="space-y-2">
+              <div className="text-sm font-medium text-muted-foreground px-2">Serviços</div>
+              <Link
+                to="/services"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Todos os Serviços
+              </Link>
+              <Link
+                to="/salons"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Salões de Beleza
+              </Link>
+              <Link
+                to="/booking"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Agendar Serviço
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-sm font-medium text-muted-foreground px-2">Marketplace</div>
+              <Link
+                to="/marketplace"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Todos os Produtos
+              </Link>
+              <Link
+                to="/marketplace?mumbuca=true"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                🪙 Mumbuca Aceita
+              </Link>
+              <Link
+                to="/marketplace/cart"
+                className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span>Carrinho</span>
+                {cartItemsCount > 0 && (
+                  <span className="bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center mr-2">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <div className="text-sm font-medium text-muted-foreground px-2">Para Empresas</div>
+              <Link
+                to="/lojista/dashboard"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Seja um Lojista
+              </Link>
+              <Link
+                to="/fornecedor/dashboard"
+                className="block py-2 pl-4 text-sm rounded-md hover:bg-accent"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Portal do Fornecedor
+              </Link>
+            </div>
+
+            <div className="pt-4 flex flex-col gap-2">
               <Button variant="outline" asChild className="w-full">
                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
                   Entrar
