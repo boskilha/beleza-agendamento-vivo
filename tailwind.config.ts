@@ -21,6 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				serif: ['Playfair Display', 'serif'],
+				'bebas': ['Bebas Neue', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',

@@ -15,7 +15,7 @@ const Header = () => {
       <div className="container flex items-center justify-between py-4">
         <div className="flex items-center">
           <Link to="/" className="flex items-center gap-2">
-            <span className="font-serif font-serif tracking-tight text-purple-800 text-3xl font-medium">
+            <span className="font-bebas tracking-tight text-purple-800 text-3xl">
               Ello
             </span>
           </Link>
