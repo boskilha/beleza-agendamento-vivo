@@ -1,21 +1,20 @@
+import { B2BMetricsCards } from "@/components/fornecedor/B2BMetricsCards";
+import { B2BQuickActions } from "@/components/fornecedor/B2BQuickActions";
+import { B2BSalesChart } from "@/components/fornecedor/B2BSalesChart";
+import { B2BRecentOrders } from "@/components/fornecedor/B2BRecentOrders";
+
 const FornecedorDashboard = () => {
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Pedidos B2B</h3>
-          <p className="text-2xl font-bold text-primary">0</p>
-        </div>
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Produtos no Catálogo</h3>
-          <p className="text-2xl font-bold text-primary">0</p>
-        </div>
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Faturamento</h3>
-          <p className="text-2xl font-bold text-primary">R$ 0,00</p>
-        </div>
+    <div className="space-y-6">
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-foreground">Dashboard B2B</h1>
+        <p className="text-muted-foreground">Visão geral das suas vendas para lojistas</p>
       </div>
+
+      <B2BMetricsCards />
+      <B2BQuickActions />
+      <B2BSalesChart />
+      <B2BRecentOrders />
     </div>
   );
 };

@@ -35,6 +35,8 @@ import FornecedorLayout from "./components/fornecedor/FornecedorLayout";
 import FornecedorDashboard from "./pages/fornecedor/Dashboard";
 import FornecedorCatalogo from "./pages/fornecedor/Catalogo";
 import FornecedorPedidos from "./pages/fornecedor/Pedidos";
+import FornecedorClientes from "./pages/fornecedor/Clientes";
+import FornecedorConfiguracoes from "./pages/fornecedor/Configuracoes";
 
 // Admin Pages
 import AdminLayout from "./components/Admin/AdminLayout";
@@ -84,6 +86,8 @@ const App = () => (
               <Route path="dashboard" element={<FornecedorDashboard />} />
               <Route path="catalogo" element={<FornecedorCatalogo />} />
               <Route path="pedidos" element={<FornecedorPedidos />} />
+              <Route path="clientes" element={<FornecedorClientes />} />
+              <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
               <Route index element={<FornecedorDashboard />} />
             </Route>
             
