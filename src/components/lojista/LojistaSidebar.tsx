@@ -61,7 +61,7 @@ const LojistaSidebar = () => {
             <Store size={24} className="text-white" />
           </div>
           <div className="flex flex-col">
-            <div className="font-serif text-xl font-bold text-white">Beleza Vivo</div>
+            <div className="font-bebas tracking-tight text-xl font-bold text-white">ELLO</div>
             <div className="text-xs text-purple-200 opacity-90">
               Área do Lojista
             </div>

@@ -39,7 +39,7 @@ export function FornecedorSidebar() {
               <Factory className="h-5 w-5 text-white" />
             </div>
             {!collapsed && <div>
-                <h1 className="font-serif text-xl font-bold text-white">Ello</h1>
+                <h1 className="font-bebas tracking-tight text-xl font-bold text-white">ELLO</h1>
                 <p className="text-xs text-purple-200">Portal B2B</p>
               </div>}
           </div>
