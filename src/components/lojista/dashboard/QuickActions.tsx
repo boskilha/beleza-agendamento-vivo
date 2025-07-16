@@ -38,26 +38,26 @@ export function QuickActions() {
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Ações Rápidas</CardTitle>
+    <Card className="shadow-lg">
+      <CardHeader className="bg-purple-700 rounded-t-xl">
+        <CardTitle className="text-white">Ações Rápidas</CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="grid gap-3 sm:grid-cols-2">
+      <CardContent className="bg-white">
+        <div className="grid gap-3 sm:grid-cols-2 pt-4">
           {actions.map((action, index) => (
             <Button
               key={index}
               variant={action.variant}
-              className="h-auto p-4 justify-start"
+              className="h-auto p-4 justify-start border-purple-200 hover:bg-purple-50"
               onClick={action.onClick}
             >
               <div className="flex items-start gap-3">
-                <div className="mt-0.5">
+                <div className="mt-0.5 text-purple-600">
                   {action.icon}
                 </div>
                 <div className="text-left">
-                  <div className="font-medium">{action.title}</div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="font-medium text-purple-800">{action.title}</div>
+                  <div className="text-xs text-purple-600">
                     {action.description}
                   </div>
                 </div>

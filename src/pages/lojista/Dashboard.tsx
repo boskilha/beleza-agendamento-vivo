@@ -5,19 +5,17 @@ import { QuickActions } from "@/components/lojista/dashboard/QuickActions";
 
 const LojistaDashboard = () => {
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground">Dashboard</h2>
-        <p className="text-muted-foreground">
-          Visão geral do seu negócio e métricas principais.
-        </p>
+    <div className="min-h-screen bg-gradient-to-br from-neutral-100 to-purple-50 p-6">
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold tracking-tight text-purple-800">Dashboard</h1>
+        <p className="text-lg text-purple-500">Visão geral do seu negócio e métricas principais</p>
       </div>
 
       <MetricsCards />
       
       <SalesChart />
       
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 mt-8">
         <RecentOrders />
         <QuickActions />
       </div>

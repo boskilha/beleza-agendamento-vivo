@@ -1,79 +1,52 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DollarSign, Package, ShoppingCart, Users, TrendingUp, TrendingDown } from "lucide-react";
+import React from "react";
+import { DollarSign, Package, ShoppingCart, Users } from "lucide-react";
 
-interface MetricCardProps {
-  title: string;
-  value: string;
-  icon: React.ReactNode;
-  trend?: {
-    value: string;
-    isPositive: boolean;
-  };
-}
-
-function MetricCard({ title, value, icon, trend }: MetricCardProps) {
-  return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
-        <div className="text-muted-foreground">
-          {icon}
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold text-foreground">{value}</div>
-        {trend && (
-          <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
-            {trend.isPositive ? (
-              <TrendingUp className="h-3 w-3 text-green-500" />
-            ) : (
-              <TrendingDown className="h-3 w-3 text-red-500" />
-            )}
-            <span className={trend.isPositive ? "text-green-500" : "text-red-500"}>
-              {trend.value}
-            </span>
-            <span>vs mês anterior</span>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
+const metricCards = [
+  {
+    title: "Vendas do Mês",
+    value: "R$ 12.450",
+    icon: <DollarSign className="h-8 w-8 text-white" />,
+    info: "+12.5% vs mês anterior",
+    bg: "from-green-500 to-green-700"
+  },
+  {
+    title: "Produtos Ativos",
+    value: "48",
+    icon: <Package className="h-8 w-8 text-white" />,
+    info: "+3 novos esta semana",
+    bg: "from-blue-500 to-blue-700"
+  },
+  {
+    title: "Pedidos Pendentes",
+    value: "12",
+    icon: <ShoppingCart className="h-8 w-8 text-white" />,
+    info: "2 urgentes",
+    bg: "from-orange-500 to-orange-700"
+  },
+  {
+    title: "Clientes Ativos",
+    value: "284",
+    icon: <Users className="h-8 w-8 text-white" />,
+    info: "+8.2% este mês",
+    bg: "from-purple-500 to-purple-700"
+  }
+];
 
 export function MetricsCards() {
-  const metrics = [
-    {
-      title: "Vendas do Mês",
-      value: "R$ 12.450,00",
-      icon: <DollarSign className="h-4 w-4" />,
-      trend: { value: "+12.5%", isPositive: true }
-    },
-    {
-      title: "Produtos Ativos",
-      value: "48",
-      icon: <Package className="h-4 w-4" />,
-      trend: { value: "+3", isPositive: true }
-    },
-    {
-      title: "Pedidos Pendentes",
-      value: "12",
-      icon: <ShoppingCart className="h-4 w-4" />,
-      trend: { value: "-2", isPositive: false }
-    },
-    {
-      title: "Clientes Ativos",
-      value: "284",
-      icon: <Users className="h-4 w-4" />,
-      trend: { value: "+8.2%", isPositive: true }
-    }
-  ];
-
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {metrics.map((metric, index) => (
-        <MetricCard key={index} {...metric} />
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+      {metricCards.map((card) => (
+        <div
+          key={card.title}
+          className={`rounded-xl shadow-lg p-3 flex flex-col justify-between bg-gradient-to-br ${card.bg} transition-transform hover:scale-105 min-h-[110px]`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-base font-medium text-white">{card.title}</span>
+            {React.cloneElement(card.icon, { className: "h-6 w-6 text-white" })}
+          </div>
+          <div className="text-xl font-bold text-white mb-1">{card.value}</div>
+          <p className="text-xs text-purple-100">{card.info}</p>
+        </div>
       ))}
     </div>
   );

@@ -56,33 +56,33 @@ const statusConfig = {
 
 export function RecentOrders() {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Pedidos Recentes</CardTitle>
-        <Button variant="outline" size="sm">
+    <Card className="shadow-lg">
+      <CardHeader className="bg-purple-700 rounded-t-xl flex flex-row items-center justify-between">
+        <CardTitle className="text-white">Pedidos Recentes</CardTitle>
+        <Button variant="outline" size="sm" className="bg-white text-purple-700 hover:bg-purple-50">
           <Package className="h-4 w-4 mr-2" />
           Ver Todos
         </Button>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
+      <CardContent className="bg-white">
+        <div className="space-y-4 pt-4">
           {orders.map((order) => (
-            <div key={order.id} className="flex items-center justify-between p-3 rounded-lg border bg-card">
+            <div key={order.id} className="flex items-center justify-between p-3 rounded-lg bg-purple-50 border border-purple-100">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-foreground">{order.id}</span>
+                  <span className="font-medium text-purple-800">{order.id}</span>
                   <Badge variant={statusConfig[order.status].variant}>
                     {statusConfig[order.status].label}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-purple-600">
                   {order.customer} • {order.product}
                 </p>
-                <p className="text-sm font-medium text-foreground">{order.value}</p>
+                <p className="text-sm font-medium text-purple-800">{order.value}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">{order.date}</span>
-                <Button variant="ghost" size="sm">
+                <span className="text-xs text-purple-600">{order.date}</span>
+                <Button variant="ghost" size="sm" className="text-purple-600 hover:bg-purple-100">
                   <Eye className="h-4 w-4" />
                 </Button>
               </div>

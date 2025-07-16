@@ -20,56 +20,60 @@ const categoryData = [
 
 export function SalesChart() {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Vendas por Mês</CardTitle>
+    <div className="grid gap-4 md:grid-cols-2 mb-8">
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Vendas por Mês</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={salesData}>
-              <defs>
-                <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis dataKey="name" className="text-muted-foreground" />
-              <YAxis className="text-muted-foreground" />
-              <Area
-                type="monotone"
-                dataKey="vendas"
-                stroke="hsl(var(--primary))"
-                fillOpacity={1}
-                fill="url(#colorSales)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+        <CardContent className="bg-white">
+          <div className="pt-4">
+            <ResponsiveContainer width="100%" height={300}>
+              <AreaChart data={salesData}>
+                <defs>
+                  <linearGradient id="colorSales" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-purple-200" />
+                <XAxis dataKey="name" className="text-purple-600" />
+                <YAxis className="text-purple-600" />
+                <Area
+                  type="monotone"
+                  dataKey="vendas"
+                  stroke="#8b5cf6"
+                  fillOpacity={1}
+                  fill="url(#colorSales)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Produtos por Categoria</CardTitle>
+      <Card className="shadow-lg">
+        <CardHeader className="bg-purple-700 rounded-t-xl">
+          <CardTitle className="text-white">Produtos por Categoria</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={categoryData}
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                dataKey="value"
-                label={({ name, value }) => `${name}: ${value}%`}
-              >
-                {categoryData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-            </PieChart>
-          </ResponsiveContainer>
+        <CardContent className="bg-white">
+          <div className="pt-4">
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={categoryData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  dataKey="value"
+                  label={({ name, value }) => `${name}: ${value}%`}
+                >
+                  {categoryData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>
