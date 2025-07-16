@@ -1,20 +1,25 @@
+import { MetricsCards } from "@/components/lojista/dashboard/MetricsCards";
+import { SalesChart } from "@/components/lojista/dashboard/SalesChart";
+import { RecentOrders } from "@/components/lojista/dashboard/RecentOrders";
+import { QuickActions } from "@/components/lojista/dashboard/QuickActions";
+
 const LojistaDashboard = () => {
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-4">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Vendas do Mês</h3>
-          <p className="text-2xl font-bold text-primary">R$ 0,00</p>
-        </div>
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Produtos Ativos</h3>
-          <p className="text-2xl font-bold text-primary">0</p>
-        </div>
-        <div className="bg-card p-6 rounded-lg border">
-          <h3 className="font-medium text-card-foreground">Pedidos Pendentes</h3>
-          <p className="text-2xl font-bold text-primary">0</p>
-        </div>
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-3xl font-bold tracking-tight text-foreground">Dashboard</h2>
+        <p className="text-muted-foreground">
+          Visão geral do seu negócio e métricas principais.
+        </p>
+      </div>
+
+      <MetricsCards />
+      
+      <SalesChart />
+      
+      <div className="grid gap-6 md:grid-cols-2">
+        <RecentOrders />
+        <QuickActions />
       </div>
     </div>
   );

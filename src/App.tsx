@@ -28,6 +28,7 @@ import LojistaDashboard from "./pages/lojista/Dashboard";
 import LojistaProdutos from "./pages/lojista/Produtos";
 import LojistaFornecedores from "./pages/lojista/Fornecedores";
 import LojistaPedidos from "./pages/lojista/Pedidos";
+import LojistaConfiguracoes from "./pages/lojista/Configuracoes";
 
 // Fornecedor Pages
 import FornecedorLayout from "./components/fornecedor/FornecedorLayout";
@@ -72,8 +73,9 @@ const App = () => (
             <Route path="/lojista" element={<LojistaLayout />}>
               <Route path="dashboard" element={<LojistaDashboard />} />
               <Route path="produtos" element={<LojistaProdutos />} />
-              <Route path="fornecedores" element={<LojistaFornecedores />} />
               <Route path="pedidos" element={<LojistaPedidos />} />
+              <Route path="configuracoes" element={<LojistaConfiguracoes />} />
+              <Route path="fornecedores" element={<LojistaFornecedores />} />
               <Route index element={<LojistaDashboard />} />
             </Route>
             
