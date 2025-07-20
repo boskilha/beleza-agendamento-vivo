@@ -68,6 +68,7 @@ const App = () => (
             {/* Marketplace Routes */}
             <Route path="/marketplace" element={<Marketplace />} />
             <Route path="/produtos/:id" element={<ProductDetail />} />
+            <Route path="/marketplace/cart" element={<Cart />} />
             <Route path="/carrinho" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             
