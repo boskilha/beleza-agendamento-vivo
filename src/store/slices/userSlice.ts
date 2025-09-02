@@ -5,7 +5,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'consumer' | 'lojista' | 'fornecedor' | 'admin';
+  role: 'consumer' | 'lojista' | 'fornecedor' | 'admin' | 'salon';
 }
 
 interface UserState {

@@ -80,7 +80,7 @@ const Header = () => {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor")) && "bg-accent/50"}>
+                <NavigationMenuTrigger className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor") || location.pathname.startsWith("/salon")) && "bg-accent/50"}>
                   Para Empresas
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -97,10 +97,10 @@ const Header = () => {
                         Fornecimento B2B para lojistas
                       </div>
                     </ListItem>
-                    <ListItem href="/fornecedor/catalogo" title="Catálogo B2B">
+                    <ListItem href="/salon/dashboard" title="Gestão de Salão">
                       <div className="flex items-center gap-2">
                         <Users className="h-4 w-4" />
-                        Acesse nosso catálogo de fornecedores
+                        Sistema completo para salões de beleza
                       </div>
                     </ListItem>
                     <ListItem href="/admin/dashboard" title="Painel Admin">
@@ -181,6 +181,9 @@ const Header = () => {
               </Link>
               <Link to="/fornecedor/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Portal do Fornecedor
+              </Link>
+              <Link to="/salon/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
+                Gestão de Salão
               </Link>
             </div>
 

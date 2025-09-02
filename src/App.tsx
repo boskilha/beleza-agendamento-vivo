@@ -38,6 +38,14 @@ import FornecedorPedidos from "./pages/fornecedor/Pedidos";
 import FornecedorClientes from "./pages/fornecedor/Clientes";
 import FornecedorConfiguracoes from "./pages/fornecedor/Configuracoes";
 
+// Salon Pages
+import SalonLayout from "./components/salon/SalonLayout";
+import SalonDashboard from "./pages/salon/Dashboard";
+import SalonAgendamentos from "./pages/salon/Agendamentos";
+import SalonClientes from "./pages/salon/Clientes";
+import SalonServicos from "./pages/salon/Servicos";
+import SalonConfiguracoes from "./pages/salon/Configuracoes";
+
 // Admin Pages
 import AdminLayout from "./components/Admin/AdminLayout";
 import Dashboard from "./pages/Admin/Dashboard";
@@ -90,6 +98,21 @@ const App = () => (
               <Route path="clientes" element={<FornecedorClientes />} />
               <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
               <Route index element={<FornecedorDashboard />} />
+            </Route>
+            
+            {/* Salon Routes */}
+            <Route path="/salon" element={<SalonLayout />}>
+              <Route path="dashboard" element={<SalonDashboard />} />
+              <Route path="agendamentos" element={<SalonAgendamentos />} />
+              <Route path="clientes" element={<SalonClientes />} />
+              <Route path="servicos" element={<SalonServicos />} />
+              <Route path="funcionarios" element={<div>Funcionários em desenvolvimento</div>} />
+              <Route path="horarios" element={<div>Horários em desenvolvimento</div>} />
+              <Route path="financeiro" element={<div>Financeiro em desenvolvimento</div>} />
+              <Route path="avaliacoes" element={<div>Avaliações em desenvolvimento</div>} />
+              <Route path="relatorios" element={<div>Relatórios em desenvolvimento</div>} />
+              <Route path="configuracoes" element={<SalonConfiguracoes />} />
+              <Route index element={<SalonDashboard />} />
             </Route>
             
             {/* Admin Routes */}
