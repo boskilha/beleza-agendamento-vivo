@@ -97,10 +97,10 @@ const Header = () => {
                         Fornecimento B2B para lojistas
                       </div>
                     </ListItem>
-                    <ListItem href="/salon/dashboard" title="Gestão de Salão">
+                    <ListItem href="/salon/dashboard" title="Gestão de Serviços">
                       <div className="flex items-center gap-2">
                         <Users className="h-4 w-4" />
-                        Sistema completo para salões de beleza
+                        Sistema completo para prestadores de serviços
                       </div>
                     </ListItem>
                     <ListItem href="/admin/dashboard" title="Painel Admin">
@@ -183,7 +183,7 @@ const Header = () => {
                 Portal do Fornecedor
               </Link>
               <Link to="/salon/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
-                Gestão de Salão
+                Gestão de Serviços
               </Link>
             </div>
 

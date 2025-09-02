@@ -11,7 +11,7 @@ const ConfiguracoesSalon = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Configurações do Salão</h1>
+        <h1 className="text-3xl font-bold">Configurações de Serviços</h1>
         <Button>
           <Save className="w-4 h-4 mr-2" />
           Salvar Alterações
@@ -26,16 +26,16 @@ const ConfiguracoesSalon = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Nome do Salão</Label>
-              <Input id="name" placeholder="Salão ELLO" defaultValue="Salão ELLO" />
+              <Label htmlFor="name">Nome do Estabelecimento</Label>
+              <Input id="name" placeholder="ELLO Serviços" defaultValue="ELLO Serviços" />
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="description">Descrição</Label>
               <Textarea 
                 id="description" 
-                placeholder="Descrição do seu salão..."
-                defaultValue="Salão de beleza completo com serviços de cabelo, unhas e estética."
+                placeholder="Descrição dos seus serviços..."
+                defaultValue="Prestação de serviços de beleza e bem-estar com profissionais qualificados."
                 rows={3}
               />
             </div>

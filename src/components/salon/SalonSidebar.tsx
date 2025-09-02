@@ -95,7 +95,7 @@ const SalonSidebar = () => {
           {state === 'expanded' && (
             <div>
               <h1 className="font-bebas tracking-tight text-white text-xl font-bold">ELLO</h1>
-              <p className="text-pink-100 text-sm">Salão Admin</p>
+              <p className="text-pink-100 text-sm">Serviços Admin</p>
             </div>
           )}
         </div>
@@ -133,7 +133,7 @@ const SalonSidebar = () => {
           {state === 'expanded' && (
             <>
               <p>Bem-vindo!</p>
-              <p className="text-xs opacity-75">Gerenciamento do Salão</p>
+              <p className="text-xs opacity-75">Gerenciamento de Serviços</p>
             </>
           )}
         </div>

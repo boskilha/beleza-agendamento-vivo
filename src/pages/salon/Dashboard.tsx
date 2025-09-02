@@ -48,7 +48,7 @@ const SalonDashboard = () => {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Dashboard do Salão</h1>
+        <h1 className="text-3xl font-bold">Dashboard de Serviços</h1>
         <div className="flex gap-3">
           <Button variant="outline">
             <Calendar className="w-4 h-4 mr-2" />
