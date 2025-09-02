@@ -14,13 +14,11 @@ export interface CartItem {
 interface CartState {
   items: CartItem[];
   total: number;
-  currency: 'BRL' | 'Mumbuca';
 }
 
 const initialState: CartState = {
   items: [],
   total: 0,
-  currency: 'BRL',
 };
 
 const cartSlice = createSlice({
@@ -51,11 +49,8 @@ const cartSlice = createSlice({
       state.items = [];
       state.total = 0;
     },
-    setCurrency: (state, action: PayloadAction<'BRL' | 'Mumbuca'>) => {
-      state.currency = action.payload;
-    },
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart, setCurrency } = cartSlice.actions;
+export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

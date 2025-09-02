@@ -1,21 +1,16 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CreditCard, QrCode, Coins } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import { CreditCard, QrCode } from "lucide-react";
 
 interface PaymentModalProps {
   trigger: React.ReactNode;
   total: number;
-  onPayment: (method: 'pix' | 'card' | 'mumbuca') => void;
+  onPayment: (method: 'pix' | 'card') => void;
 }
 
 const PaymentModal = ({ trigger, total, onPayment }: PaymentModalProps) => {
-  const { currentUser } = useSelector((state: RootState) => state.user);
-  const mumbucaBalance = currentUser?.mumbucaBalance || 0;
 
   return (
     <Dialog>
@@ -62,24 +57,6 @@ const PaymentModal = ({ trigger, total, onPayment }: PaymentModalProps) => {
               </div>
             </Button>
             
-            <Button 
-              onClick={() => onPayment('mumbuca')}
-              className="w-full justify-start gap-3 h-12 bg-green-600 hover:bg-green-700 text-white"
-              disabled={mumbucaBalance < total}
-            >
-              <Coins className="w-5 h-5" />
-              <div className="text-left flex-1">
-                <div className="font-medium flex items-center gap-2">
-                  Moeda Mumbuca
-                  <Badge variant="secondary" className="text-xs">
-                    Saldo: R$ {mumbucaBalance.toFixed(2)}
-                  </Badge>
-                </div>
-                <div className="text-sm text-green-100">
-                  {mumbucaBalance >= total ? "Economia local" : "Saldo insuficiente"}
-                </div>
-              </div>
-            </Button>
           </div>
         </div>
       </DialogContent>

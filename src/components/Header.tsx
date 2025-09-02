@@ -75,9 +75,6 @@ const Header = () => {
                     <ListItem href="/marketplace?category=cosmetics" title="Cosméticos Locais">
                       Produtos de beleza artesanais e naturais
                     </ListItem>
-                    <ListItem href="/marketplace?mumbuca=true" title="🪙 Mumbuca Aceita" className="bg-accent/20">
-                      Produtos que aceitam moeda social Mumbuca
-                    </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -168,9 +165,6 @@ const Header = () => {
               <div className="text-sm font-medium text-muted-foreground px-2">Marketplace</div>
               <Link to="/marketplace" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Todos os Produtos
-              </Link>
-              <Link to="/marketplace?mumbuca=true" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20" onClick={() => setMobileMenuOpen(false)}>
-                🪙 Mumbuca Aceita
               </Link>
               <Link to="/marketplace/cart" className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 <span>Carrinho</span>
