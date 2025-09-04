@@ -25,9 +25,7 @@ const HeroSection = () => {
       icon: Sparkles,
       searchPlaceholder: "Serviço ou salão",
       buttonText: "Buscar Serviços",
-      route: "/servicos",
-      primaryAction: "Agendar Agora",
-      secondaryAction: "Ver Serviços"
+      route: "/servicos"
     },
     {
       id: 2,
@@ -38,9 +36,7 @@ const HeroSection = () => {
       icon: ShoppingBag,
       searchPlaceholder: "Produto ou artesão",
       buttonText: "Buscar Produtos",
-      route: "/marketplace",
-      primaryAction: "Explorar Produtos",
-      secondaryAction: "Ver Artesãos"
+      route: "/marketplace"
     },
     {
       id: 3,
@@ -51,9 +47,7 @@ const HeroSection = () => {
       icon: Users,
       searchPlaceholder: "Empresa ou fornecedor",
       buttonText: "Buscar Parceiros",
-      route: "/b2b",
-      primaryAction: "Seja Parceiro",
-      secondaryAction: "Portal B2B"
+      route: "/b2b"
     }
   ];
 
@@ -151,19 +145,6 @@ const HeroSection = () => {
                       </form>
                     </div>
                     
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100 px-8">
-                        <Link to={slide.route}>
-                          {slide.primaryAction}
-                          <ArrowRight className="ml-2 w-4 h-4" />
-                        </Link>
-                      </Button>
-                      <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                        <Link to={slide.route}>
-                          {slide.secondaryAction}
-                        </Link>
-                      </Button>
-                    </div>
                   </div>
                 </div>
               </div>
