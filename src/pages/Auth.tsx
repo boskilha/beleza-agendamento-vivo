@@ -161,6 +161,30 @@ const Auth = () => {
 
       console.log("✅ Usuário criado com sucesso:", authData.user.id);
 
+      // Wait for session to be established
+      console.log("🔵 Aguardando sessão ser estabelecida...");
+      let sessionEstablished = false;
+      let retries = 0;
+      const maxRetries = 5;
+      
+      while (!sessionEstablished && retries < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          sessionEstablished = true;
+          console.log("✅ Sessão estabelecida:", session.user.id);
+        } else {
+          retries++;
+          console.log(`🔄 Tentativa ${retries}/${maxRetries} - Aguardando sessão...`);
+        }
+      }
+
+      if (!sessionEstablished) {
+        console.error("❌ Sessão não foi estabelecida após múltiplas tentativas");
+        toast.error("Erro ao estabelecer sessão. Tente novamente.");
+        return;
+      }
+
       // Create the company
       console.log("🔵 Criando empresa...");
       const cnpjNumbers = data.cnpj.replace(/[^\d]/g, '');
