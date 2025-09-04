@@ -46,6 +46,7 @@ import AdminEstoque from "./pages/Admin/Estoque";
 import AdminChat from "./pages/Admin/Chat";
 import AdminConfiguracoes from "./pages/Admin/Configuracoes";
 import AdminPerfis from "./pages/Admin/Perfis";
+import AdminAgendamentos from "./pages/Admin/Agendamentos";
 
 // Unified Layout
 import UnifiedLayout from "./components/shared/UnifiedLayout";
@@ -86,6 +87,7 @@ function App() {
                   <Route path="dashboard" element={<UnifiedDashboard />} />
                   <Route path="funcionarios" element={<AdminFuncionarios />} />
                   <Route path="servicos" element={<AdminServicos />} />
+                  <Route path="agendamentos" element={<AdminAgendamentos />} />
                   <Route path="estoque" element={<AdminEstoque />} />
                   <Route path="chat" element={<AdminChat />} />
                   <Route path="perfis" element={<AdminPerfis />} />

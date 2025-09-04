@@ -228,9 +228,9 @@ export function UnifiedSidebar() {
         <SidebarFooter>
           <div className="p-3 text-xs text-muted-foreground">
             <p>Plano: Empresarial</p>
-            <a href="#" className="text-primary hover:underline">
+            <button className="text-primary hover:underline cursor-pointer">
               Fazer upgrade
-            </a>
+            </button>
           </div>
         </SidebarFooter>
       )}
