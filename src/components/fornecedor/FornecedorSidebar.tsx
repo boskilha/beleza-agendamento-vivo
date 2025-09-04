@@ -6,10 +6,6 @@ const menuItems = [{
   path: "/fornecedor/dashboard",
   icon: BarChart3
 }, {
-  title: "Catálogo",
-  path: "/fornecedor/catalogo",
-  icon: Package
-}, {
   title: "Pedidos",
   path: "/fornecedor/pedidos",
   icon: ShoppingCart

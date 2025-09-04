@@ -8,13 +8,6 @@ export function B2BQuickActions() {
 
   const actions = [
     {
-      title: "Adicionar Produto",
-      description: "Incluir novo item no catálogo B2B",
-      icon: <Package className="h-5 w-5" />,
-      onClick: () => navigate("/fornecedor/catalogo"),
-      variant: "default" as const,
-    },
-    {
       title: "Ver Pedidos",
       description: "Verificar pedidos de lojistas",
       icon: <ShoppingCart className="h-5 w-5" />,

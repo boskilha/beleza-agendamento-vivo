@@ -100,12 +100,6 @@ const Header = () => {
                         Fornecimento B2B para lojistas
                       </div>
                     </ListItem>
-                    <ListItem href="/fornecedor/catalogo" title="Catálogo B2B">
-                      <div className="flex items-center gap-2">
-                        <Users className="h-4 w-4" />
-                        Acesse nosso catálogo de fornecedores
-                      </div>
-                    </ListItem>
                     <ListItem href="/admin/dashboard" title="Venda seus Serviços">
                       Gerencie seu salão ou estabelecimento
                     </ListItem>
