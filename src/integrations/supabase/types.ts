@@ -87,6 +87,7 @@ export type Database = {
       companies: {
         Row: {
           address: string | null
+          business_types: Database["public"]["Enums"]["business_type"][] | null
           cnpj: string | null
           created_at: string
           email: string
@@ -99,6 +100,7 @@ export type Database = {
         }
         Insert: {
           address?: string | null
+          business_types?: Database["public"]["Enums"]["business_type"][] | null
           cnpj?: string | null
           created_at?: string
           email: string
@@ -111,6 +113,7 @@ export type Database = {
         }
         Update: {
           address?: string | null
+          business_types?: Database["public"]["Enums"]["business_type"][] | null
           cnpj?: string | null
           created_at?: string
           email?: string
@@ -123,11 +126,50 @@ export type Database = {
         }
         Relationships: []
       }
+      company_profiles: {
+        Row: {
+          business_type: Database["public"]["Enums"]["business_type"]
+          company_id: string
+          configuration: Json | null
+          created_at: string
+          id: string
+          is_active: boolean
+          updated_at: string
+        }
+        Insert: {
+          business_type: Database["public"]["Enums"]["business_type"]
+          company_id: string
+          configuration?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Update: {
+          business_type?: Database["public"]["Enums"]["business_type"]
+          company_id?: string
+          configuration?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "company_profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       company_users: {
         Row: {
           company_id: string
           created_at: string
           id: string
+          profile_permissions: Json | null
           role: string
           user_id: string
         }
@@ -135,6 +177,7 @@ export type Database = {
           company_id: string
           created_at?: string
           id?: string
+          profile_permissions?: Json | null
           role?: string
           user_id: string
         }
@@ -142,6 +185,7 @@ export type Database = {
           company_id?: string
           created_at?: string
           id?: string
+          profile_permissions?: Json | null
           role?: string
           user_id?: string
         }
@@ -258,7 +302,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      business_type: "beauty_salon" | "marketplace_store" | "b2b_supplier"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -385,6 +429,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      business_type: ["beauty_salon", "marketplace_store", "b2b_supplier"],
+    },
   },
 } as const

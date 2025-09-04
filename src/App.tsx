@@ -45,6 +45,11 @@ import AdminServicos from "./pages/Admin/Servicos";
 import AdminEstoque from "./pages/Admin/Estoque";
 import AdminChat from "./pages/Admin/Chat";
 import AdminConfiguracoes from "./pages/Admin/Configuracoes";
+import AdminPerfis from "./pages/Admin/Perfis";
+
+// Unified Layout
+import UnifiedLayout from "./components/shared/UnifiedLayout";
+import { UnifiedDashboard } from "./components/shared/UnifiedDashboard";
 
 const queryClient = new QueryClient();
 
@@ -71,43 +76,45 @@ function App() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 
-                {/* Lojista routes */}
-                <Route path="/lojista" element={
+                {/* Unified Admin Area */}
+                <Route path="/admin" element={
                   <ProtectedRoute>
-                    <LojistaLayout />
+                    <UnifiedLayout />
                   </ProtectedRoute>
                 }>
-                  <Route index element={<LojistaDashboard />} />
+                  <Route index element={<UnifiedDashboard />} />
+                  <Route path="dashboard" element={<UnifiedDashboard />} />
+                  <Route path="funcionarios" element={<AdminFuncionarios />} />
+                  <Route path="servicos" element={<AdminServicos />} />
+                  <Route path="estoque" element={<AdminEstoque />} />
+                  <Route path="chat" element={<AdminChat />} />
+                  <Route path="perfis" element={<AdminPerfis />} />
+                  <Route path="configuracoes" element={<AdminConfiguracoes />} />
+                </Route>
+
+                {/* Lojista routes - redirected to unified admin */}
+                <Route path="/lojista" element={
+                  <ProtectedRoute>
+                    <UnifiedLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<UnifiedDashboard />} />
                   <Route path="produtos" element={<LojistaProdutos />} />
                   <Route path="pedidos" element={<LojistaPedidos />} />
                   <Route path="fornecedores" element={<LojistaFornecedores />} />
                   <Route path="configuracoes" element={<LojistaConfiguracoes />} />
                 </Route>
                 
-                {/* Fornecedor routes */}
+                {/* Fornecedor routes - redirected to unified admin */}
                 <Route path="/fornecedor" element={
                   <ProtectedRoute>
-                    <FornecedorLayout />
+                    <UnifiedLayout />
                   </ProtectedRoute>
                 }>
-                  <Route index element={<FornecedorDashboard />} />
+                  <Route index element={<UnifiedDashboard />} />
                   <Route path="pedidos" element={<FornecedorPedidos />} />
                   <Route path="clientes" element={<FornecedorClientes />} />
                   <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
-                </Route>
-                
-                {/* Admin routes */}
-                <Route path="/admin" element={
-                  <ProtectedRoute>
-                    <AdminLayout />
-                  </ProtectedRoute>
-                }>
-                  <Route index element={<AdminDashboard />} />
-                  <Route path="funcionarios" element={<AdminFuncionarios />} />
-                  <Route path="servicos" element={<AdminServicos />} />
-                  <Route path="estoque" element={<AdminEstoque />} />
-                  <Route path="chat" element={<AdminChat />} />
-                  <Route path="configuracoes" element={<AdminConfiguracoes />} />
                 </Route>
                 
                 <Route path="*" element={<NotFound />} />
