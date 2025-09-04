@@ -75,12 +75,15 @@ const Header = () => {
                     <ListItem href="/marketplace?category=cosmetics" title="Cosméticos Locais">
                       Produtos de beleza artesanais e naturais
                     </ListItem>
+                    <ListItem href="/marketplace?mumbuca=true" title="🪙 Mumbuca Aceita" className="bg-accent/20">
+                      Produtos que aceitam moeda social Mumbuca
+                    </ListItem>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor") || location.pathname.startsWith("/salon")) && "bg-accent/50"}>
+                <NavigationMenuTrigger className={(location.pathname.startsWith("/lojista") || location.pathname.startsWith("/fornecedor")) && "bg-accent/50"}>
                   Para Empresas
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -97,10 +100,10 @@ const Header = () => {
                         Fornecimento B2B para lojistas
                       </div>
                     </ListItem>
-                    <ListItem href="/salon/dashboard" title="Gestão de Serviços">
+                    <ListItem href="/fornecedor/catalogo" title="Catálogo B2B">
                       <div className="flex items-center gap-2">
                         <Users className="h-4 w-4" />
-                        Sistema completo para prestadores de serviços
+                        Acesse nosso catálogo de fornecedores
                       </div>
                     </ListItem>
                     <ListItem href="/admin/dashboard" title="Painel Admin">
@@ -166,6 +169,9 @@ const Header = () => {
               <Link to="/marketplace" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Todos os Produtos
               </Link>
+              <Link to="/marketplace?mumbuca=true" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20" onClick={() => setMobileMenuOpen(false)}>
+                🪙 Mumbuca Aceita
+              </Link>
               <Link to="/marketplace/cart" className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 <span>Carrinho</span>
                 {cartItemsCount > 0 && <span className="bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center mr-2">
@@ -181,9 +187,6 @@ const Header = () => {
               </Link>
               <Link to="/fornecedor/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Portal do Fornecedor
-              </Link>
-              <Link to="/salon/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
-                Gestão de Serviços
               </Link>
             </div>
 

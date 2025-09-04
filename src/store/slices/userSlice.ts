@@ -5,7 +5,8 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'consumer' | 'lojista' | 'fornecedor' | 'admin' | 'salon';
+  role: 'consumer' | 'lojista' | 'fornecedor' | 'admin';
+  mumbucaBalance?: number;
 }
 
 interface UserState {
@@ -30,8 +31,13 @@ const userSlice = createSlice({
       state.currentUser = null;
       state.isAuthenticated = false;
     },
+    updateMumbucaBalance: (state, action: PayloadAction<number>) => {
+      if (state.currentUser) {
+        state.currentUser.mumbucaBalance = action.payload;
+      }
+    },
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, updateMumbucaBalance } = userSlice.actions;
 export default userSlice.reducer;

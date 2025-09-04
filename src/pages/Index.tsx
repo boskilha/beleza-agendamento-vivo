@@ -141,6 +141,23 @@ const Index = () => {
           </div>
         </section>
 
+        {/* Mumbuca Banner */}
+        <section className="py-12 px-6 bg-gradient-to-r from-green-600 to-green-700 text-white">
+          <div className="max-w-6xl mx-auto text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Badge className="bg-white text-green-600 text-sm font-medium px-3 py-1">
+                Novidade
+              </Badge>
+              <h3 className="text-2xl font-bold">Pagamento com Moeda Mumbuca</h3>
+            </div>
+            <p className="text-lg mb-6 opacity-90">
+              Agora você pode pagar com a moeda local de Maricá e fortalecer nossa economia!
+            </p>
+            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-green-600">
+              Saiba mais sobre a Mumbuca
+            </Button>
+          </div>
+        </section>
         
         {/* Featured Products */}
         <section className="py-20 px-6 bg-neutral-50">

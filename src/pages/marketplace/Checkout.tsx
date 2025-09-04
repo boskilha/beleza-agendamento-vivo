@@ -342,6 +342,10 @@ const Checkout = () => {
                       <RadioGroupItem value="pix" id="pix" />
                       <Label htmlFor="pix">PIX</Label>
                     </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="mumbuca" id="mumbuca" />
+                      <Label htmlFor="mumbuca">Mumbuca</Label>
+                    </div>
                   </RadioGroup>
                 </CardContent>
               </Card>
