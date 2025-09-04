@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,15 +5,16 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
+import { AuthProvider } from "@/hooks/useAuth";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 import Index from "./pages/Index";
 import Services from "./pages/Services";
-import Booking from "./pages/Booking";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import NotFound from "./pages/NotFound";
+import Auth from "./pages/Auth";
 import SalonList from "./pages/SalonList";
 import SalonDetail from "./pages/SalonDetail";
+import Booking from "./pages/Booking";
+import NotFound from "./pages/NotFound";
 
 // Marketplace Pages
 import Marketplace from "./pages/marketplace/Marketplace";
@@ -39,74 +39,85 @@ import FornecedorConfiguracoes from "./pages/fornecedor/Configuracoes";
 
 // Admin Pages
 import AdminLayout from "./components/Admin/AdminLayout";
-import Dashboard from "./pages/Admin/Dashboard";
-import Funcionarios from "./pages/Admin/Funcionarios";
-import Servicos from "./pages/Admin/Servicos";
-import Estoque from "./pages/Admin/Estoque";
-import Chat from "./pages/Admin/Chat";
-import Configuracoes from "./pages/Admin/Configuracoes";
+import AdminDashboard from "./pages/Admin/Dashboard";
+import AdminFuncionarios from "./pages/Admin/Funcionarios";
+import AdminServicos from "./pages/Admin/Servicos";
+import AdminEstoque from "./pages/Admin/Estoque";
+import AdminChat from "./pages/Admin/Chat";
+import AdminConfiguracoes from "./pages/Admin/Configuracoes";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <Provider store={store}>
+function App() {
+  return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/booking" element={<Booking />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/salons" element={<SalonList />} />
-            <Route path="/salons/:id" element={<SalonDetail />} />
-            
-            {/* Marketplace Routes */}
-            <Route path="/marketplace" element={<Marketplace />} />
-            <Route path="/produtos/:id" element={<ProductDetail />} />
-            <Route path="/marketplace/cart" element={<Cart />} />
-            <Route path="/carrinho" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            
-            {/* Lojista Routes */}
-            <Route path="/lojista" element={<LojistaLayout />}>
-              <Route path="dashboard" element={<LojistaDashboard />} />
-              <Route path="produtos" element={<LojistaProdutos />} />
-              <Route path="pedidos" element={<LojistaPedidos />} />
-              <Route path="configuracoes" element={<LojistaConfiguracoes />} />
-              <Route path="fornecedores" element={<LojistaFornecedores />} />
-              <Route index element={<LojistaDashboard />} />
-            </Route>
-            
-            {/* Fornecedor Routes */}
-            <Route path="/fornecedor" element={<FornecedorLayout />}>
-              <Route path="dashboard" element={<FornecedorDashboard />} />
-              <Route path="pedidos" element={<FornecedorPedidos />} />
-              <Route path="clientes" element={<FornecedorClientes />} />
-              <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
-              <Route index element={<FornecedorDashboard />} />
-            </Route>
-            
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="funcionarios" element={<Funcionarios />} />
-              <Route path="servicos" element={<Servicos />} />
-              <Route path="estoque" element={<Estoque />} />
-              <Route path="chat" element={<Chat />} />
-              <Route path="configuracoes" element={<Configuracoes />} />
-              <Route index element={<Dashboard />} />
-            </Route>
-            
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <Provider store={store}>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/salons" element={<SalonList />} />
+                <Route path="/salon/:id" element={<SalonDetail />} />
+                <Route path="/booking" element={<Booking />} />
+                
+                {/* Marketplace Routes */}
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/produto/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                
+                {/* Lojista routes */}
+                <Route path="/lojista" element={
+                  <ProtectedRoute>
+                    <LojistaLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<LojistaDashboard />} />
+                  <Route path="produtos" element={<LojistaProdutos />} />
+                  <Route path="pedidos" element={<LojistaPedidos />} />
+                  <Route path="fornecedores" element={<LojistaFornecedores />} />
+                  <Route path="configuracoes" element={<LojistaConfiguracoes />} />
+                </Route>
+                
+                {/* Fornecedor routes */}
+                <Route path="/fornecedor" element={
+                  <ProtectedRoute>
+                    <FornecedorLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<FornecedorDashboard />} />
+                  <Route path="pedidos" element={<FornecedorPedidos />} />
+                  <Route path="clientes" element={<FornecedorClientes />} />
+                  <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
+                </Route>
+                
+                {/* Admin routes */}
+                <Route path="/admin" element={
+                  <ProtectedRoute>
+                    <AdminLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="funcionarios" element={<AdminFuncionarios />} />
+                  <Route path="servicos" element={<AdminServicos />} />
+                  <Route path="estoque" element={<AdminEstoque />} />
+                  <Route path="chat" element={<AdminChat />} />
+                  <Route path="configuracoes" element={<AdminConfiguracoes />} />
+                </Route>
+                
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AuthProvider>
+      </Provider>
     </QueryClientProvider>
-  </Provider>
-);
+  );
+}
 
 export default App;

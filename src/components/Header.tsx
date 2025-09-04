@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { MenuIcon, X, ShoppingCart, MapPin, Store, Users, Package } from "lucide-react";
+import { MenuIcon, X, ShoppingCart, MapPin, Store, Users, Package, User, LogOut } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import type { RootState } from "@/store/store";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const cartItemsCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const { user, signOut } = useAuth();
   return <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-md">
       <div className="container flex items-center justify-between py-4">
         <div className="flex items-center">
@@ -126,12 +134,34 @@ const Header = () => {
             </Link>
           </Button>
 
-          <Button variant="outline" asChild>
-            <Link to="/login">Entrar</Link>
-          </Button>
-          <Button className="bg-purple-800 hover:bg-purple-900" asChild>
-            <Link to="/register">Cadastrar</Link>
-          </Button>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <User size={16} className="mr-2" />
+                  Minha Conta
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link to="/admin">Painel Administrativo</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut size={16} className="mr-2" />
+                  Sair
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button variant="outline" asChild>
+                <Link to="/auth">Entrar</Link>
+              </Button>
+              <Button className="bg-purple-800 hover:bg-purple-900" asChild>
+                <Link to="/auth">Cadastrar Empresa</Link>
+              </Button>
+            </>
+          )}
         </div>
 
         <Button variant="ghost" size="icon" className="lg:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -188,16 +218,33 @@ const Header = () => {
             </div>
 
             <div className="pt-4 flex flex-col gap-2">
-              <Button variant="outline" asChild className="w-full">
-                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
-                  Entrar
-                </Link>
-              </Button>
-              <Button className="w-full bg-purple-800 hover:bg-purple-900" asChild>
-                <Link to="/register" onClick={() => setMobileMenuOpen(false)}>
-                  Cadastrar
-                </Link>
-              </Button>
+              {user ? (
+                <>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link to="/admin" onClick={() => setMobileMenuOpen(false)}>
+                      <User size={16} className="mr-2" />
+                      Painel Administrativo
+                    </Link>
+                  </Button>
+                  <Button variant="outline" className="w-full" onClick={() => { signOut(); setMobileMenuOpen(false); }}>
+                    <LogOut size={16} className="mr-2" />
+                    Sair
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" asChild className="w-full">
+                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      Entrar
+                    </Link>
+                  </Button>
+                  <Button className="w-full bg-purple-800 hover:bg-purple-900" asChild>
+                    <Link to="/auth" onClick={() => setMobileMenuOpen(false)}>
+                      Cadastrar Empresa
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
           </nav>
         </div>}

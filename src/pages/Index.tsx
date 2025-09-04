@@ -7,6 +7,7 @@ import ProductCard, { Product } from "@/components/marketplace/ProductCard";
 import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useAuth } from "@/hooks/useAuth";
 
 const services = [
   {
@@ -107,6 +108,7 @@ const featuredSalons = [
 ];
 
 const Index = () => {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50">
       <Header />
@@ -137,6 +139,16 @@ const Index = () => {
                   <ArrowRight size={18} />
                 </Link>
               </Button>
+              {!user && (
+                <Button asChild variant="secondary" size="lg" className="text-lg px-8">
+                  <Link to="/auth">Cadastrar Empresa</Link>
+                </Button>
+              )}
+              {user && (
+                <Button asChild variant="secondary" size="lg" className="text-lg px-8">
+                  <Link to="/admin">Painel Administrativo</Link>
+                </Button>
+              )}
             </div>
           </div>
         </section>
