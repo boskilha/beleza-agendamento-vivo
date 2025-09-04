@@ -62,11 +62,18 @@ export const useCompanyProfiles = () => {
         return;
       }
 
-      // Primeiro, verificar se a empresa já tem este perfil
-      const existingProfile = profiles.find(p => p.business_type === businessType);
-      
-      if (existingProfile) {
-        // Se já existe, apenas ativar
+      // Buscar TODOS os perfis (ativos e inativos) para verificar se já existe
+      const { data: existingProfiles, error: searchError } = await supabase
+        .from('company_profiles')
+        .select('*')
+        .eq('company_id', companyData.company_id)
+        .eq('business_type', businessType);
+
+      if (searchError) throw searchError;
+
+      if (existingProfiles && existingProfiles.length > 0) {
+        // Se já existe um perfil (mesmo inativo), apenas ativar
+        const existingProfile = existingProfiles[0];
         const { error } = await supabase
           .from('company_profiles')
           .update({ is_active: true })
@@ -74,7 +81,7 @@ export const useCompanyProfiles = () => {
 
         if (error) throw error;
       } else {
-        // Se não existe, criar novo perfil
+        // Se não existe nenhum perfil, criar novo
         const { error } = await supabase
           .from('company_profiles')
           .insert({
