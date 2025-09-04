@@ -126,8 +126,11 @@ const Auth = () => {
 
   const onRegister = async (data: RegisterFormValues) => {
     setIsLoading(true);
+    console.log("🔵 Iniciando processo de cadastro:", { email: data.email, companyName: data.companyName });
+    
     try {
       // First, register the user
+      console.log("🔵 Criando usuário no Supabase Auth...");
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
@@ -137,48 +140,98 @@ const Auth = () => {
       });
 
       if (authError) {
-        toast.error(authError.message);
+        console.error("❌ Erro na criação do usuário:", authError);
+        
+        // Handle specific auth errors
+        if (authError.message.includes("rate_limit") || authError.message.includes("429")) {
+          toast.error("Muitas tentativas de cadastro. Aguarde alguns minutos e tente novamente.");
+        } else if (authError.message.includes("User already registered")) {
+          toast.error("Este email já está cadastrado. Tente fazer login.");
+        } else {
+          toast.error(`Erro de autenticação: ${authError.message}`);
+        }
         return;
       }
 
-      if (authData.user) {
-        // Create the company
-        const cnpjNumbers = data.cnpj.replace(/[^\d]/g, '');
-        const { data: company, error: companyError } = await supabase
-          .from("companies")
-          .insert({
-            name: data.companyName,
-            cnpj: cnpjNumbers,
-            email: data.email,
-            phone: data.phone,
-          })
-          .select()
-          .single();
-
-        if (companyError) {
-          toast.error("Erro ao criar empresa");
-          return;
-        }
-
-        // Link user to company as owner
-        const { error: linkError } = await supabase
-          .from("company_users")
-          .insert({
-            user_id: authData.user.id,
-            company_id: company.id,
-            role: "owner",
-          });
-
-        if (linkError) {
-          toast.error("Erro ao vincular usuário à empresa");
-          return;
-        }
-
-        toast.success("Cadastro realizado com sucesso!");
-        navigate("/admin");
+      if (!authData.user) {
+        console.error("❌ Usuário não foi criado corretamente");
+        toast.error("Erro: usuário não foi criado. Tente novamente.");
+        return;
       }
+
+      console.log("✅ Usuário criado com sucesso:", authData.user.id);
+
+      // Create the company
+      console.log("🔵 Criando empresa...");
+      const cnpjNumbers = data.cnpj.replace(/[^\d]/g, '');
+      const { data: company, error: companyError } = await supabase
+        .from("companies")
+        .insert({
+          name: data.companyName,
+          cnpj: cnpjNumbers,
+          email: data.email,
+          phone: data.phone || null,
+        })
+        .select()
+        .single();
+
+      if (companyError) {
+        console.error("❌ Erro ao criar empresa:", companyError);
+        
+        // Handle specific company creation errors
+        if (companyError.message.includes("row-level security")) {
+          toast.error("Erro de permissão ao criar empresa. Contate o suporte.");
+        } else if (companyError.message.includes("unique")) {
+          toast.error("CNPJ ou email já cadastrado. Verifique os dados.");
+        } else {
+          toast.error(`Erro ao criar empresa: ${companyError.message}`);
+        }
+        return;
+      }
+
+      if (!company) {
+        console.error("❌ Empresa não foi criada corretamente");
+        toast.error("Erro: empresa não foi criada. Tente novamente.");
+        return;
+      }
+
+      console.log("✅ Empresa criada com sucesso:", company.id);
+
+      // Link user to company as owner
+      console.log("🔵 Vinculando usuário à empresa...");
+      const { error: linkError } = await supabase
+        .from("company_users")
+        .insert({
+          user_id: authData.user.id,
+          company_id: company.id,
+          role: "owner",
+        });
+
+      if (linkError) {
+        console.error("❌ Erro ao vincular usuário à empresa:", linkError);
+        
+        if (linkError.message.includes("row-level security")) {
+          toast.error("Erro de permissão ao vincular usuário. Contate o suporte.");
+        } else {
+          toast.error(`Erro ao vincular usuário: ${linkError.message}`);
+        }
+        return;
+      }
+
+      console.log("✅ Usuário vinculado à empresa com sucesso");
+      console.log("✅ Cadastro completo realizado com sucesso!");
+      
+      toast.success("Cadastro realizado com sucesso! Verifique seu email para confirmação.");
+      
+      // Wait a bit for auth state to update, then redirect
+      setTimeout(() => {
+        navigate("/admin");
+      }, 1000);
+      
     } catch (error) {
-      toast.error("Erro ao criar conta");
+      console.error("❌ Erro geral no cadastro:", error);
+      const errorMessage = error instanceof Error ? error.message : "Erro desconhecido";
+      toast.error(`Erro ao criar conta: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
