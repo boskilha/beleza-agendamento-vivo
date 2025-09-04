@@ -106,8 +106,8 @@ const Header = () => {
                         Acesse nosso catálogo de fornecedores
                       </div>
                     </ListItem>
-                    <ListItem href="/admin/dashboard" title="Painel Admin">
-                      Sistema de administração e controle
+                    <ListItem href="/admin/dashboard" title="Venda seus Serviços">
+                      Gerencie seu salão ou estabelecimento
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
@@ -187,6 +187,9 @@ const Header = () => {
               </Link>
               <Link to="/fornecedor/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 Portal do Fornecedor
+              </Link>
+              <Link to="/admin/dashboard" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
+                Venda seus Serviços
               </Link>
             </div>
 
