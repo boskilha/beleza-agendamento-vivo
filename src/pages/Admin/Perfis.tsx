@@ -27,13 +27,19 @@ const getBusinessIcon = (type: BusinessType) => {
 const allBusinessTypes: BusinessType[] = ['beauty_salon', 'marketplace_store', 'b2b_supplier'];
 
 const PerfilsPage = () => {
-  const { profiles, availableTypes, activateProfile, deactivateProfile, isLoading } = useCompanyProfiles();
+  const { profiles, availableTypes, allProfileTypes, activateProfile, deactivateProfile, isLoading } = useCompanyProfiles();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleToggleProfile = async (businessType: BusinessType, isActive: boolean) => {
+    const profile = profiles.find(p => p.business_type === businessType);
+    
     if (isActive) {
-      await deactivateProfile(businessType);
+      // Se o perfil existe e está sendo desativado
+      if (profile) {
+        await deactivateProfile(businessType);
+      }
     } else {
+      // Se o perfil não existe ou está sendo ativado
       await activateProfile(businessType);
     }
   };
@@ -89,7 +95,7 @@ const PerfilsPage = () => {
             
             <div className="space-y-4">
               {allBusinessTypes
-                .filter(type => !availableTypes.includes(type))
+                .filter(type => !allProfileTypes.includes(type))
                 .map((type) => (
                   <Card 
                     key={type} 
@@ -111,11 +117,11 @@ const PerfilsPage = () => {
                   </Card>
                 ))}
               
-              {allBusinessTypes.filter(type => !availableTypes.includes(type)).length === 0 && (
+              {allBusinessTypes.filter(type => !allProfileTypes.includes(type)).length === 0 && (
                 <Alert>
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    Todos os perfis disponíveis já estão ativados para sua empresa.
+                    Todos os perfis disponíveis já foram criados para sua empresa.
                   </AlertDescription>
                 </Alert>
               )}
@@ -126,8 +132,9 @@ const PerfilsPage = () => {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {allBusinessTypes.map((type) => {
-          const isActive = availableTypes.includes(type);
           const profile = profiles.find(p => p.business_type === type);
+          const isActive = profile?.is_active || false;
+          const profileExists = !!profile;
           
           return (
             <Card key={type} className={`relative ${!isActive ? 'opacity-60' : ''}`}>
@@ -144,10 +151,16 @@ const PerfilsPage = () => {
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <Switch
-                      checked={isActive}
-                      onCheckedChange={(checked) => handleToggleProfile(type, !checked)}
-                    />
+                    {profileExists ? (
+                      <Switch
+                        checked={isActive}
+                        onCheckedChange={(checked) => handleToggleProfile(type, !checked)}
+                      />
+                    ) : (
+                      <Badge variant="outline" className="text-xs">
+                        Não criado
+                      </Badge>
+                    )}
                     {isActive && (
                       <Badge variant="secondary" className="text-xs">
                         Ativo
@@ -157,7 +170,7 @@ const PerfilsPage = () => {
                 </div>
               </CardHeader>
               
-              {isActive && (
+              {isActive && profileExists && (
                 <CardContent className="pt-0">
                   <Separator className="mb-4" />
                   

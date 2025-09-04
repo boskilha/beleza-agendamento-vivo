@@ -18,19 +18,23 @@ export const useCompanyProfiles = () => {
 
   const fetchCompanyProfiles = async () => {
     try {
+      // Buscar TODOS os perfis (ativos e inativos) para exibir na interface
       const { data, error } = await supabase
         .from('company_profiles')
         .select('*')
-        .eq('is_active', true)
         .order('created_at');
 
       if (error) throw error;
 
       setProfiles(data || []);
       
-      // Definir perfil ativo padrão (primeiro disponível)
-      if (data && data.length > 0 && !activeProfile) {
-        setActiveProfile(data[0].business_type as BusinessType);
+      // Definir perfil ativo padrão apenas entre os perfis ativos
+      const activeProfiles = data?.filter(profile => profile.is_active) || [];
+      if (activeProfiles.length > 0 && !activeProfile) {
+        setActiveProfile(activeProfiles[0].business_type as BusinessType);
+      } else if (activeProfiles.length === 0) {
+        // Se não há perfis ativos, limpar o perfil ativo
+        setActiveProfile(null);
       }
     } catch (error) {
       console.error('Erro ao buscar perfis da empresa:', error);
@@ -135,6 +139,7 @@ export const useCompanyProfiles = () => {
     switchProfile,
     activateProfile,
     deactivateProfile,
-    availableTypes: profiles.map(p => p.business_type as BusinessType),
+    availableTypes: profiles.filter(p => p.is_active).map(p => p.business_type as BusinessType),
+    allProfileTypes: profiles.map(p => p.business_type as BusinessType),
   };
 };
