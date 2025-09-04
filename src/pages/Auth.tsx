@@ -18,8 +18,55 @@ const loginSchema = z.object({
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
 });
 
+// Helper function to validate CNPJ
+const validateCNPJ = (cnpj: string): boolean => {
+  const numbers = cnpj.replace(/[^\d]/g, '');
+  
+  if (numbers.length !== 14) return false;
+  
+  // Check if all digits are the same
+  if (/^(\d)\1+$/.test(numbers)) return false;
+  
+  // Validate first check digit
+  let sum = 0;
+  let weight = 5;
+  for (let i = 0; i < 12; i++) {
+    sum += parseInt(numbers[i]) * weight;
+    weight = weight === 2 ? 9 : weight - 1;
+  }
+  let remainder = sum % 11;
+  let digit1 = remainder < 2 ? 0 : 11 - remainder;
+  
+  if (parseInt(numbers[12]) !== digit1) return false;
+  
+  // Validate second check digit
+  sum = 0;
+  weight = 6;
+  for (let i = 0; i < 13; i++) {
+    sum += parseInt(numbers[i]) * weight;
+    weight = weight === 2 ? 9 : weight - 1;
+  }
+  remainder = sum % 11;
+  let digit2 = remainder < 2 ? 0 : 11 - remainder;
+  
+  return parseInt(numbers[13]) === digit2;
+};
+
+// Helper function to format CNPJ
+const formatCNPJ = (value: string): string => {
+  const numbers = value.replace(/[^\d]/g, '');
+  return numbers
+    .replace(/^(\d{2})(\d)/, '$1.$2')
+    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/\.(\d{3})(\d)/, '.$1/$2')
+    .replace(/(\d{4})(\d)/, '$1-$2');
+};
+
 const registerSchema = z.object({
   companyName: z.string().min(2, "Nome da empresa é obrigatório"),
+  cnpj: z.string()
+    .min(1, "CNPJ é obrigatório")
+    .refine((cnpj) => validateCNPJ(cnpj), "CNPJ inválido"),
   email: z.string().email("Email inválido"),
   phone: z.string().optional(),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
@@ -35,6 +82,7 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 const Auth = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [cnpjValue, setCnpjValue] = useState("");
   
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -95,10 +143,12 @@ const Auth = () => {
 
       if (authData.user) {
         // Create the company
+        const cnpjNumbers = data.cnpj.replace(/[^\d]/g, '');
         const { data: company, error: companyError } = await supabase
           .from("companies")
           .insert({
             name: data.companyName,
+            cnpj: cnpjNumbers,
             email: data.email,
             phone: data.phone,
           })
@@ -204,6 +254,26 @@ const Auth = () => {
                       {registerForm.formState.errors.companyName && (
                         <p className="text-sm text-destructive mt-1">
                           {registerForm.formState.errors.companyName.message}
+                        </p>
+                      )}
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="cnpj">CNPJ</Label>
+                      <Input
+                        id="cnpj"
+                        placeholder="00.000.000/0000-00"
+                        value={cnpjValue}
+                        onChange={(e) => {
+                          const formatted = formatCNPJ(e.target.value);
+                          setCnpjValue(formatted);
+                          registerForm.setValue("cnpj", formatted, { shouldValidate: true });
+                        }}
+                        maxLength={18}
+                      />
+                      {registerForm.formState.errors.cnpj && (
+                        <p className="text-sm text-destructive mt-1">
+                          {registerForm.formState.errors.cnpj.message}
                         </p>
                       )}
                     </div>
