@@ -161,27 +161,10 @@ const Auth = () => {
 
       console.log("✅ Usuário criado com sucesso:", authData.user.id);
 
-      // Wait for session to be established
-      console.log("🔵 Aguardando sessão ser estabelecida...");
-      let sessionEstablished = false;
-      let retries = 0;
-      const maxRetries = 5;
-      
-      while (!sessionEstablished && retries < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session?.user) {
-          sessionEstablished = true;
-          console.log("✅ Sessão estabelecida:", session.user.id);
-        } else {
-          retries++;
-          console.log(`🔄 Tentativa ${retries}/${maxRetries} - Aguardando sessão...`);
-        }
-      }
-
-      if (!sessionEstablished) {
-        console.error("❌ Sessão não foi estabelecida após múltiplas tentativas");
-        toast.error("Erro ao estabelecer sessão. Tente novamente.");
+      // Check if email confirmation is required
+      if (authData.user && !authData.session) {
+        console.log("🔵 Email de confirmação enviado. Usuário deve confirmar email primeiro.");
+        toast.success("Cadastro realizado com sucesso! Verifique seu email para confirmação e depois faça login.");
         return;
       }
 
