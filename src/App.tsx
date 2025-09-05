@@ -117,13 +117,14 @@ function App() {
                   <Route path="configuracoes" element={<AdminConfiguracoes />} />
                 </Route>
 
-                {/* Lojista routes - redirected to unified admin */}
+                {/* Lojista routes */}
                 <Route path="/lojista" element={
                   <ProtectedRoute>
-                    <UnifiedLayout />
+                    <LojistaLayout />
                   </ProtectedRoute>
                 }>
-                  <Route index element={<UnifiedDashboard />} />
+                  <Route index element={<LojistaDashboard />} />
+                  <Route path="dashboard" element={<LojistaDashboard />} />
                   <Route path="produtos" element={<LojistaProdutos />} />
                   <Route path="pedidos" element={<LojistaPedidos />} />
                   <Route path="fornecedores" element={<LojistaFornecedores />} />
