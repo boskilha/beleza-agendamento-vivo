@@ -1,8 +1,13 @@
+# Robots.txt para Ello Marketplace
+# Marketplace local de Maricá com serviços de beleza e produtos artesanais
+
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Twitterbot
 Allow: /
@@ -12,3 +17,13 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /lojista/
+Disallow: /fornecedor/
+Disallow: /api/
+Disallow: /auth/callback
+Disallow: /tmp/
+Crawl-delay: 2
+
+# Sitemap location
+Sitemap: https://ello-marketplace.com/sitemap.xml

@@ -4,6 +4,8 @@ import ServiceCard from "@/components/ServiceCard";
 import { Input } from "@/components/ui/input";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useSEO } from "@/hooks/useSEO";
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 
 const allServices = [
   {
@@ -68,6 +70,15 @@ const Services = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   
+  // SEO Configuration
+  useSEO({
+    title: "Serviços de Beleza em Maricá | Corte, Manicure, Tratamentos | Ello",
+    description: "Encontre os melhores serviços de beleza em Maricá: corte de cabelo, manicure, tratamentos faciais, massagem e muito mais. Agende online com os melhores profissionais.",
+    keywords: "serviços beleza maricá, corte cabelo, manicure, tratamento facial, massagem, salão beleza, agendamento online",
+    url: "https://ello-marketplace.com/services",
+    canonical: "https://ello-marketplace.com/services"
+  });
+  
   const filteredServices = allServices.filter(service => {
     const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           service.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -82,8 +93,9 @@ const Services = () => {
       
       <main className="flex-1 py-12 px-6">
         <div className="max-w-6xl mx-auto">
+          <Breadcrumbs className="mb-6" />
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">Nossos Serviços</h1>
+            <h1 className="text-4xl font-bold mb-4">Serviços de Beleza em Maricá</h1>
             <p className="text-xl text-muted-foreground">
               Explore nossa variedade de serviços de beleza
             </p>

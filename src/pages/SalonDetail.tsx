@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StarIcon, MapPin, Phone, Instagram, Clock, Calendar, ArrowRight } from "lucide-react";
+import { useSEO, createLocalBusinessSchema } from "@/hooks/useSEO";
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
+import StructuredData from "@/components/SEO/StructuredData";
 
 interface Salon {
   id: string;
@@ -185,6 +188,25 @@ const SalonDetail = () => {
   const displayServices = services.length > 0 ? services : mockServices;
   const displayProfessionals = professionals.length > 0 ? professionals : mockProfessionals;
   
+  // SEO Configuration
+  useSEO({
+    title: `${displaySalon.name} - Salão de Beleza em ${displaySalon.city} | Ello`,
+    description: `${displaySalon.description || 'Salão de beleza especializado'} Localizado em ${displaySalon.district || displaySalon.city}. Agende online seus serviços de beleza.`,
+    keywords: `${displaySalon.name}, salão beleza ${displaySalon.city}, ${displaySalon.district || ''}, agendamento online, serviços beleza`,
+    url: `https://ello-marketplace.com/salons/${id}`,
+    type: "business.business",
+    canonical: `https://ello-marketplace.com/salons/${id}`,
+    structuredData: createLocalBusinessSchema({
+      name: displaySalon.name,
+      description: displaySalon.description || 'Salão de beleza especializado',
+      address: displaySalon.address,
+      city: displaySalon.city,
+      phone: displaySalon.phone,
+      rating: displaySalon.rating,
+      website: `https://ello-marketplace.com/salons/${id}`
+    })
+  });
+  
   // Group services by category
   const categories = [...new Set(displayServices.map(service => service.category))];
   const servicesByCategory = categories.reduce((acc, category) => {
@@ -253,6 +275,16 @@ const SalonDetail = () => {
         </div>
         
         <div className="max-w-6xl mx-auto px-6 py-8">
+          <StructuredData data={createLocalBusinessSchema({
+            name: displaySalon.name,
+            description: displaySalon.description || 'Salão de beleza especializado',
+            address: displaySalon.address,
+            city: displaySalon.city,
+            phone: displaySalon.phone,
+            rating: displaySalon.rating,
+            website: `https://ello-marketplace.com/salons/${id}`
+          })} />
+          <Breadcrumbs className="mb-6" />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
               <Tabs defaultValue="about">

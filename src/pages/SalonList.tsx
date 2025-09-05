@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, MapPin, Star, Filter } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useSEO } from "@/hooks/useSEO";
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 
 interface Salon {
   id: string;
@@ -26,6 +28,15 @@ const SalonList = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
   const [locationFilter, setLocationFilter] = useState(searchParams.get("location") || "");
+  
+  // SEO Configuration
+  useSEO({
+    title: "Salões de Beleza em Maricá e São Paulo | Agendamento Online | Ello",
+    description: "Encontre os melhores salões de beleza em Maricá e São Paulo. Compare preços, avaliações e agende online. Corte, coloração, manicure e muito mais.",
+    keywords: "salões beleza maricá, salões são paulo, agendamento online, corte cabelo, manicure, coloração, tratamento facial",
+    url: "https://ello-marketplace.com/salons",
+    canonical: "https://ello-marketplace.com/salons"
+  });
   
   useEffect(() => {
     const fetchSalons = async () => {
@@ -109,8 +120,9 @@ const SalonList = () => {
       
       <main className="flex-1 py-12 px-6">
         <div className="max-w-6xl mx-auto">
+          <Breadcrumbs className="mb-6" />
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4">Encontre o Salão Perfeito</h1>
+            <h1 className="text-4xl font-bold mb-4">Salões de Beleza em Maricá e São Paulo</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Descubra os melhores salões de beleza próximos a você e agende seu horário
             </p>

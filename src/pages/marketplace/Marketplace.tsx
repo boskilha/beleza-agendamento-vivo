@@ -13,6 +13,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/marketplace/ProductCard";
 import GeoLocationButton from "@/components/shared/GeoLocationButton";
+import { useSEO } from "@/hooks/useSEO";
+import Breadcrumbs from "@/components/SEO/Breadcrumbs";
 
 // Mock data - Em produção viria de uma API
 const mockProducts: Product[] = [
@@ -59,6 +61,15 @@ const Marketplace = () => {
   const [selectedCategory, setSelectedCategory] = useState("Todos");
   const { items } = useSelector((state: RootState) => state.cart);
   
+  // SEO Configuration
+  useSEO({
+    title: "Marketplace de Produtos Locais Maricá | Artesanato e Mumbuca | Ello",
+    description: "Descubra produtos únicos de Maricá: joias artesanais, roupas locais, cosméticos naturais e muito mais. Moeda social Mumbuca aceita. Compre online e apoie o comércio local.",
+    keywords: "marketplace maricá, produtos locais, artesanato, mumbuca, joias artesanais, cosméticos naturais, moda local, compras online",
+    url: "https://ello-marketplace.com/marketplace",
+    canonical: "https://ello-marketplace.com/marketplace"
+  });
+  
   const categories = ["Todos", "Joias", "Moda", "Cosméticos", "Artesanato"];
   
   const filteredProducts = mockProducts.filter(product => {
@@ -75,6 +86,7 @@ const Marketplace = () => {
         {/* Hero Section with Search */}
         <section className="bg-white py-12 px-6">
           <div className="max-w-6xl mx-auto">
+            <Breadcrumbs className="mb-6" />
             <div className="text-center mb-8">
               <h1 className="text-3xl md:text-4xl font-serif font-light mb-4">
                 Marketplace Local de Maricá

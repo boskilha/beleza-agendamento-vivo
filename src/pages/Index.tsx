@@ -8,6 +8,8 @@ import HeroSection from "@/components/HeroSection";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useAuth } from "@/hooks/useAuth";
+import { useSEO, createOrganizationSchema } from "@/hooks/useSEO";
+import StructuredData from "@/components/SEO/StructuredData";
 
 const services = [
   {
@@ -110,6 +112,17 @@ const featuredSalons = [
 const Index = () => {
   const { user, isLoading } = useAuth();
   
+  // SEO Configuration
+  useSEO({
+    title: "Ello - Marketplace de Beleza e Produtos Locais de Maricá | Agendamento Online",
+    description: "Marketplace local de Maricá com serviços de beleza, produtos artesanais e moeda social Mumbuca aceita. Agende serviços e compre produtos locais online.",
+    keywords: "maricá, beleza, marketplace, salão, artesanato, mumbuca, agendamento, produtos locais, moeda social, beleza natural, produtos artesanais, rio de janeiro",
+    url: "https://ello-marketplace.com/",
+    type: "website",
+    canonical: "https://ello-marketplace.com/",
+    structuredData: createOrganizationSchema()
+  });
+  
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -119,6 +132,7 @@ const Index = () => {
   }
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50">
+      <StructuredData data={createOrganizationSchema()} />
       <Header />
       <HeroSection />
       
@@ -127,7 +141,7 @@ const Index = () => {
         <section className="py-20 px-6 bg-white">
           <div className="max-w-6xl mx-auto text-center">
             <span className="text-purple-800 uppercase tracking-wider text-sm font-medium mb-4 inline-block">Bem-vindo ao Ello</span>
-            <h2 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza e produtos locais de Maricá</h2>
+            <h1 className="text-3xl md:text-4xl font-serif font-light mb-6">O maior marketplace de beleza e produtos locais de Maricá</h1>
             <div className="w-24 h-0.5 bg-purple-800 mx-auto mb-8"></div>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed mb-10">
               Conectamos você aos melhores profissionais, salões de beleza e produtos artesanais da nossa região.
