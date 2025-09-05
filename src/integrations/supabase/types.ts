@@ -267,6 +267,48 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          category: Database["public"]["Enums"]["product_category"]
+          company_id: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name: string
+          price: number
+          stock_quantity: number | null
+          updated_at: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["product_category"]
+          company_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name: string
+          price: number
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["product_category"]
+          company_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name?: string
+          price?: number
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           active: boolean | null
@@ -361,6 +403,15 @@ export type Database = {
     }
     Enums: {
       business_type: "beauty_salon" | "marketplace_store" | "b2b_supplier"
+      product_category:
+        | "beleza"
+        | "cabelo"
+        | "unha"
+        | "estetica"
+        | "maquiagem"
+        | "equipamentos"
+        | "mobiliario"
+        | "outros"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -489,6 +540,16 @@ export const Constants = {
   public: {
     Enums: {
       business_type: ["beauty_salon", "marketplace_store", "b2b_supplier"],
+      product_category: [
+        "beleza",
+        "cabelo",
+        "unha",
+        "estetica",
+        "maquiagem",
+        "equipamentos",
+        "mobiliario",
+        "outros",
+      ],
     },
   },
 } as const
