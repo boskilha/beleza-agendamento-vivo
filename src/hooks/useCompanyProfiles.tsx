@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
-import { BusinessType, CompanyProfile } from '@/types/business';
+import { BusinessType, CompanyProfile, BUSINESS_TYPE_LABELS } from '@/types/business';
 import { toast } from 'sonner';
 
 export const useCompanyProfiles = () => {
@@ -52,10 +52,19 @@ export const useCompanyProfiles = () => {
   };
 
   const switchProfile = (businessType: BusinessType) => {
+    console.log('switchProfile chamado com:', businessType);
+    console.log('Perfis disponíveis:', profiles);
+    
     const profile = profiles.find(p => p.business_type === businessType);
-    if (profile) {
+    console.log('Perfil encontrado:', profile);
+    
+    if (profile && profile.is_active) {
+      console.log('Mudando perfil ativo de', activeProfile, 'para', businessType);
       setActiveProfile(businessType);
-      toast.success(`Perfil alterado para: ${businessType}`);
+      toast.success(`Perfil alterado para: ${BUSINESS_TYPE_LABELS[businessType]}`);
+    } else {
+      console.log('Perfil não encontrado ou inativo:', profile);
+      toast.error('Perfil não disponível');
     }
   };
 
