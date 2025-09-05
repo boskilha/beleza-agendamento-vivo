@@ -43,6 +43,18 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 271 39% 26%;
     --sidebar-ring: 271 91% 65%;
+
+    /* B2B Professional Colors */
+    --b2b-background: 215 28% 17%;
+    --b2b-foreground: 210 20% 95%;
+    --b2b-primary: 217 91% 60%;
+    --b2b-primary-foreground: 0 0% 100%;
+    --b2b-accent: 215 16% 47%;
+    --b2b-accent-foreground: 210 20% 95%;
+    --b2b-border: 215 28% 25%;
+    --b2b-muted: 215 28% 22%;
+    --b2b-hover: 0 0% 100%;
+    --b2b-hover-foreground: 215 28% 17%;
   }
 
   .dark {
@@ -81,6 +93,18 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 271 39% 16%;
     --sidebar-ring: 271 91% 65%;
+
+    /* B2B Professional Colors - Dark Mode */
+    --b2b-background: 215 32% 12%;
+    --b2b-foreground: 210 20% 90%;
+    --b2b-primary: 217 87% 55%;
+    --b2b-primary-foreground: 0 0% 100%;
+    --b2b-accent: 215 16% 40%;
+    --b2b-accent-foreground: 210 20% 90%;
+    --b2b-border: 215 32% 18%;
+    --b2b-muted: 215 32% 15%;
+    --b2b-hover: 0 0% 100%;
+    --b2b-hover-foreground: 215 32% 12%;
   }
 }
 
