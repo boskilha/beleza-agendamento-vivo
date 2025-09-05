@@ -7,6 +7,11 @@ import { B2BMetricsCards } from '@/components/fornecedor/B2BMetricsCards';
 import { B2BQuickActions } from '@/components/fornecedor/B2BQuickActions';
 import { B2BSalesChart } from '@/components/fornecedor/B2BSalesChart';
 import { B2BRecentOrders } from '@/components/fornecedor/B2BRecentOrders';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Settings, User, AlertTriangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const getDashboardTitle = (activeProfile: string) => {
   switch (activeProfile) {
@@ -34,7 +39,8 @@ const getDashboardTitle = (activeProfile: string) => {
 };
 
 export const UnifiedDashboard = () => {
-  const { activeProfile, isLoading } = useCompanyProfiles();
+  const { activeProfile, isLoading, hasProfiles, inactiveProfilesCount } = useCompanyProfiles();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -46,15 +52,59 @@ export const UnifiedDashboard = () => {
 
   if (!activeProfile) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-muted-foreground mb-2">
-            Nenhum Perfil Ativo
-          </h2>
-          <p className="text-muted-foreground">
-            Configure os perfis da sua empresa para acessar o dashboard.
-          </p>
-        </div>
+      <div className="flex items-center justify-center min-h-[500px] p-6">
+        <Card className="w-full max-w-lg">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="rounded-full bg-orange-100 p-3">
+                <AlertTriangle className="h-8 w-8 text-orange-600" />
+              </div>
+            </div>
+            <CardTitle className="text-2xl font-bold">
+              Nenhum Perfil Ativo
+            </CardTitle>
+            <CardDescription className="text-base">
+              {hasProfiles 
+                ? `Você tem ${inactiveProfilesCount} perfil(s) disponível(eis) para ativação.`
+                : 'Configure os perfis da sua empresa para acessar o dashboard.'
+              }
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+              <User className="h-5 w-5 text-muted-foreground" />
+              <div className="flex-1">
+                <p className="text-sm font-medium">Perfis Disponíveis</p>
+                <p className="text-xs text-muted-foreground">
+                  {hasProfiles 
+                    ? `${inactiveProfilesCount} perfil(s) aguardando ativação`
+                    : 'Nenhum perfil configurado ainda'
+                  }
+                </p>
+              </div>
+              {hasProfiles && (
+                <Badge variant="outline" className="ml-auto">
+                  {inactiveProfilesCount}
+                </Badge>
+              )}
+            </div>
+            
+            <div className="space-y-3">
+              <Button 
+                onClick={() => navigate('/admin/perfis')}
+                className="w-full"
+                size="lg"
+              >
+                <Settings className="h-4 w-4 mr-2" />
+                {hasProfiles ? 'Ativar Perfis' : 'Configurar Perfis'}
+              </Button>
+              
+              <p className="text-xs text-muted-foreground text-center">
+                Ative pelo menos um perfil para acessar o dashboard completo
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }

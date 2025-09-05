@@ -141,5 +141,7 @@ export const useCompanyProfiles = () => {
     deactivateProfile,
     availableTypes: profiles.filter(p => p.is_active).map(p => p.business_type as BusinessType),
     allProfileTypes: profiles.map(p => p.business_type as BusinessType),
+    hasProfiles: profiles.length > 0,
+    inactiveProfilesCount: profiles.filter(p => !p.is_active).length,
   };
 };
