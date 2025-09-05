@@ -18,6 +18,7 @@ export const useCompanyProfiles = () => {
 
   const fetchCompanyProfiles = async () => {
     try {
+      console.log('📦 fetchCompanyProfiles iniciado');
       // Buscar TODOS os perfis (ativos e inativos) para exibir na interface
       const { data, error } = await supabase
         .from('company_profiles')
@@ -26,29 +27,29 @@ export const useCompanyProfiles = () => {
 
       if (error) throw error;
 
-      console.log('Perfis carregados:', data);
+      console.log('📦 Perfis carregados:', data);
       setProfiles(data || []);
       
-      // Definir perfil ativo padrão apenas se não houver um já selecionado
+      // IMPORTANTE: Não alterar activeProfile se o usuário já fez uma seleção manual
       const activeProfiles = data?.filter(profile => profile.is_active) || [];
-      console.log('Perfis ativos encontrados:', activeProfiles);
+      console.log('📦 Perfis ativos encontrados:', activeProfiles);
       
       if (activeProfiles.length > 0) {
         // Só definir automaticamente se não houver um perfil ativo ou se o atual não estiver mais ativo
         if (!activeProfile || !activeProfiles.find(p => p.business_type === activeProfile)) {
           const newActiveProfile = activeProfiles[0].business_type as BusinessType;
-          console.log('Definindo perfil ativo inicial:', newActiveProfile);
+          console.log('📦 Definindo perfil ativo inicial:', newActiveProfile);
           setActiveProfile(newActiveProfile);
         } else {
-          console.log('Mantendo perfil ativo atual:', activeProfile);
+          console.log('📦 Mantendo perfil ativo atual:', activeProfile);
         }
       } else {
         // Se não há perfis ativos, limpar o perfil ativo
-        console.log('Nenhum perfil ativo, limpando activeProfile');
+        console.log('📦 Nenhum perfil ativo, limpando activeProfile');
         setActiveProfile(null);
       }
     } catch (error) {
-      console.error('Erro ao buscar perfis da empresa:', error);
+      console.error('❌ Erro ao buscar perfis da empresa:', error);
       toast.error('Erro ao carregar perfis da empresa');
     } finally {
       setIsLoading(false);
@@ -56,18 +57,20 @@ export const useCompanyProfiles = () => {
   };
 
   const switchProfile = (businessType: BusinessType) => {
-    console.log('switchProfile chamado com:', businessType);
-    console.log('Perfis disponíveis:', profiles);
+    console.log('🔄 switchProfile chamado para:', businessType);
+    console.log('🔄 activeProfile antes da troca:', activeProfile);
+    console.log('🔄 Perfis disponíveis:', profiles.map(p => ({ type: p.business_type, active: p.is_active })));
     
     const profile = profiles.find(p => p.business_type === businessType);
-    console.log('Perfil encontrado:', profile);
+    console.log('🔍 Perfil encontrado:', profile);
     
     if (profile && profile.is_active) {
-      console.log('Mudando perfil ativo de', activeProfile, 'para', businessType);
+      console.log('✅ Mudando perfil ativo de', activeProfile, 'para', businessType);
       setActiveProfile(businessType);
+      console.log('✅ setActiveProfile executado');
       toast.success(`Perfil alterado para: ${BUSINESS_TYPE_LABELS[businessType]}`);
     } else {
-      console.log('Perfil não encontrado ou inativo:', profile);
+      console.log('❌ Perfil não encontrado ou inativo:', profile);
       toast.error('Perfil não disponível');
     }
   };

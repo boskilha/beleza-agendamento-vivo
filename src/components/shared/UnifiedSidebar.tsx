@@ -181,11 +181,17 @@ export function UnifiedSidebar() {
   };
 
   const filteredMenuItems = useMemo(() => {
-    if (!activeProfile) return [];
+    console.log('UnifiedSidebar - activeProfile atual:', activeProfile);
+    if (!activeProfile) {
+      console.log('UnifiedSidebar - Nenhum activeProfile, retornando array vazio');
+      return [];
+    }
     
-    return menuItems.filter(item => 
+    const filtered = menuItems.filter(item => 
       item.profiles.includes(activeProfile)
     );
+    console.log('UnifiedSidebar - Itens filtrados para', activeProfile, ':', filtered.map(item => item.title));
+    return filtered;
   }, [activeProfile]);
 
   const getCompanyName = () => {
