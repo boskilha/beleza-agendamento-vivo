@@ -42,6 +42,11 @@ export const UnifiedDashboard = () => {
   const { activeProfile, isLoading, hasProfiles, inactiveProfilesCount } = useCompanyProfiles();
   const navigate = useNavigate();
 
+  console.log('UnifiedDashboard - activeProfile:', activeProfile);
+  console.log('UnifiedDashboard - isLoading:', isLoading);
+  console.log('UnifiedDashboard - hasProfiles:', hasProfiles);
+  console.log('UnifiedDashboard - inactiveProfilesCount:', inactiveProfilesCount);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
