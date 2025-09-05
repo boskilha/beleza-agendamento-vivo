@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import {
   Calendar,
@@ -144,13 +144,16 @@ export function UnifiedSidebar() {
     }
   };
 
-  const getFilteredMenuItems = () => {
+  const filteredMenuItems = useMemo(() => {
     if (!activeProfile) return [];
     
-    return menuItems.filter(item => 
+    console.log('Filtering menu items for profile:', activeProfile);
+    const filtered = menuItems.filter(item => 
       item.profiles.includes(activeProfile)
     );
-  };
+    console.log('Filtered menu items:', filtered);
+    return filtered;
+  }, [activeProfile]);
 
   const getCompanyName = () => {
     switch (activeProfile) {
@@ -165,9 +168,12 @@ export function UnifiedSidebar() {
     }
   };
 
-  const filteredMenuItems = getFilteredMenuItems();
-
   const collapsed = state === 'collapsed';
+
+  useEffect(() => {
+    console.log('UnifiedSidebar: activeProfile changed to:', activeProfile);
+    console.log('UnifiedSidebar: filteredMenuItems count:', filteredMenuItems.length);
+  }, [activeProfile, filteredMenuItems]);
 
   return (
     <Sidebar
