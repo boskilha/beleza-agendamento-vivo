@@ -47,7 +47,19 @@ const menuItems: MenuItem[] = [
     title: 'Dashboard',
     path: '/admin/dashboard',
     icon: BarChart3,
-    profiles: ['beauty_salon', 'marketplace_store', 'b2b_supplier'],
+    profiles: ['beauty_salon'],
+  },
+  {
+    title: 'Dashboard',
+    path: '/lojista',
+    icon: BarChart3,
+    profiles: ['marketplace_store'],
+  },
+  {
+    title: 'Dashboard',
+    path: '/fornecedor',
+    icon: BarChart3,
+    profiles: ['b2b_supplier'],
   },
   {
     title: 'Agendamentos',
@@ -101,6 +113,12 @@ const menuItems: MenuItem[] = [
     title: 'Estoque',
     path: '/admin/estoque',
     icon: Boxes,
+    profiles: ['beauty_salon'],
+  },
+  {
+    title: 'Estoque',
+    path: '/admin/estoque',
+    icon: Boxes,
     profiles: ['marketplace_store', 'b2b_supplier'],
   },
   {
@@ -119,7 +137,19 @@ const menuItems: MenuItem[] = [
     title: 'Configurações',
     path: '/admin/configuracoes',
     icon: Settings,
-    profiles: ['beauty_salon', 'marketplace_store', 'b2b_supplier'],
+    profiles: ['beauty_salon'],
+  },
+  {
+    title: 'Configurações',
+    path: '/lojista/configuracoes',
+    icon: Settings,
+    profiles: ['marketplace_store'],
+  },
+  {
+    title: 'Configurações',
+    path: '/fornecedor/configuracoes',
+    icon: Settings,
+    profiles: ['b2b_supplier'],
   },
 ];
 
@@ -128,6 +158,9 @@ export function UnifiedSidebar() {
   const location = useLocation();
   const { activeProfile, availableTypes } = useCompanyProfiles();
   const currentPath = location.pathname;
+
+  console.log('UnifiedSidebar render - activeProfile:', activeProfile);
+  console.log('UnifiedSidebar render - currentPath:', currentPath);
 
   const getMenuIcon = () => {
     if (!activeProfile) return <Store className="h-5 w-5" />;
@@ -145,17 +178,22 @@ export function UnifiedSidebar() {
   };
 
   const filteredMenuItems = useMemo(() => {
-    if (!activeProfile) return [];
+    if (!activeProfile) {
+      console.log('No activeProfile, returning empty array');
+      return [];
+    }
     
     console.log('Filtering menu items for profile:', activeProfile);
+    console.log('All menu items:', menuItems);
     const filtered = menuItems.filter(item => 
       item.profiles.includes(activeProfile)
     );
-    console.log('Filtered menu items:', filtered);
+    console.log('Filtered menu items:', filtered.map(item => ({ title: item.title, path: item.path })));
     return filtered;
   }, [activeProfile]);
 
   const getCompanyName = () => {
+    console.log('Getting company name for profile:', activeProfile);
     switch (activeProfile) {
       case 'beauty_salon':
         return 'Beleza Agendamento';
@@ -171,9 +209,12 @@ export function UnifiedSidebar() {
   const collapsed = state === 'collapsed';
 
   useEffect(() => {
-    console.log('UnifiedSidebar: activeProfile changed to:', activeProfile);
-    console.log('UnifiedSidebar: filteredMenuItems count:', filteredMenuItems.length);
+    console.log('UnifiedSidebar useEffect - activeProfile changed to:', activeProfile);
+    console.log('UnifiedSidebar useEffect - filteredMenuItems count:', filteredMenuItems.length);
+    console.log('UnifiedSidebar useEffect - filteredMenuItems details:', filteredMenuItems.map(item => ({ title: item.title, path: item.path })));
   }, [activeProfile, filteredMenuItems]);
+
+  console.log('About to render menu with', filteredMenuItems.length, 'items for profile:', activeProfile);
 
   return (
     <Sidebar
@@ -205,10 +246,10 @@ export function UnifiedSidebar() {
           <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {filteredMenuItems.map((item) => {
+              {filteredMenuItems.map((item, index) => {
                 const isActive = currentPath === item.path;
                 return (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={`${item.title}-${item.path}-${index}`}>
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={item.path}
