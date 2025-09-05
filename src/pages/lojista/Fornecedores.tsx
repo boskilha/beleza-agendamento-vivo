@@ -13,10 +13,17 @@ interface Product {
   description: string | null;
   price: number;
   category: string;
-  companies: {
-    name: string;
-    email: string;
-  };
+  company_id: string;
+}
+
+interface Company {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface ProductWithCompany extends Product {
+  company: Company;
 }
 
 const LojistaFornecedores = () => {
@@ -34,41 +41,66 @@ const LojistaFornecedores = () => {
     { value: 'outros', label: 'Outros' },
   ];
 
-  // Fetch products from B2B suppliers
-  const { data: products = [], isLoading } = useQuery({
+  // Fetch products and companies
+  const { data: productsWithCompanies = [], isLoading } = useQuery({
     queryKey: ['supplier-products'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get active products
+      const { data: products, error: productsError } = await supabase
         .from('products')
-        .select(`
-          id,
-          name,
-          description,
-          price,
-          category,
-          companies (
-            name,
-            email
-          )
-        `)
+        .select('*')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      return data as Product[];
+      if (productsError) throw productsError;
+
+      // Get unique company IDs
+      const companyIds = [...new Set(products.map(p => p.company_id))];
+
+      // Get companies with B2B supplier profile
+      const { data: companies, error: companiesError } = await supabase
+        .from('companies')
+        .select(`
+          id, 
+          name, 
+          email,
+          company_profiles!inner(business_type)
+        `)
+        .in('id', companyIds)
+        .eq('company_profiles.business_type', 'b2b_supplier')
+        .eq('company_profiles.is_active', true);
+
+      if (companiesError) throw companiesError;
+
+      // Combine products with their companies
+      const result: ProductWithCompany[] = products
+        .filter(product => companies.some(company => company.id === product.company_id))
+        .map(product => {
+          const company = companies.find(c => c.id === product.company_id);
+          return {
+            ...product,
+            company: {
+              id: company!.id,
+              name: company!.name,
+              email: company!.email,
+            }
+          };
+        });
+
+      return result;
     },
   });
 
   const filteredProducts = useMemo(() => {
-    return products.filter(product => {
+    return productsWithCompanies.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            (product.description?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
-                           product.companies.name.toLowerCase().includes(searchTerm.toLowerCase());
+                           product.company.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
       
       return matchesSearch && matchesCategory;
     });
-  }, [products, searchTerm, categoryFilter]);
+  }, [productsWithCompanies, searchTerm, categoryFilter]);
 
   return (
     <div className="p-6 space-y-6">
@@ -119,7 +151,7 @@ const LojistaFornecedores = () => {
             <Building2 className="h-12 w-12 mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">Nenhum produto encontrado</h3>
             <p className="text-muted-foreground text-center">
-              {products.length === 0 
+              {productsWithCompanies.length === 0 
                 ? 'Ainda não há produtos disponíveis de fornecedores.'
                 : 'Tente ajustar os filtros de busca.'
               }
@@ -140,7 +172,7 @@ const LojistaFornecedores = () => {
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground mt-1">
-                      por {product.companies.name}
+                      por {product.company.name}
                     </p>
                   </div>
                 </div>
