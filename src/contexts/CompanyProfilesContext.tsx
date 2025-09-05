@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+// Performance optimized context with better caching and state management
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { BusinessType, CompanyProfile, BUSINESS_TYPE_LABELS } from '@/types/business';
@@ -19,32 +20,44 @@ interface CompanyProfilesContextType {
 
 const CompanyProfilesContext = createContext<CompanyProfilesContextType | undefined>(undefined);
 
+// Stable localStorage key
+const STORAGE_KEY = 'selectedProfile';
+
 export const CompanyProfilesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
   const [profiles, setProfiles] = useState<CompanyProfile[]>([]);
   const [activeProfile, setActiveProfile] = useState<BusinessType | null>(() => {
-    // Tentar carregar do localStorage primeiro
-    const saved = localStorage.getItem('selectedProfile');
-    return saved as BusinessType | null;
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved as BusinessType | null;
+    }
+    return null;
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  // Salvar no localStorage sempre que activeProfile mudar
+  // Optimized localStorage sync with debouncing
   useEffect(() => {
-    if (activeProfile) {
-      localStorage.setItem('selectedProfile', activeProfile);
-      console.log('💾 Perfil salvo no localStorage:', activeProfile);
-    } else {
-      localStorage.removeItem('selectedProfile');
-      console.log('💾 Perfil removido do localStorage');
-    }
+    if (typeof window === 'undefined') return;
+    
+    const timeoutId = setTimeout(() => {
+      if (activeProfile) {
+        localStorage.setItem(STORAGE_KEY, activeProfile);
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }, 100); // Debounce rapid changes
+
+    return () => clearTimeout(timeoutId);
   }, [activeProfile]);
 
+  // Memoized company profiles fetch with proper error handling
   const fetchCompanyProfiles = useCallback(async () => {
-    if (!user) return;
+    if (!user) {
+      setIsLoading(false);
+      return;
+    }
     
     try {
-      console.log('📦 [CONTEXT] fetchCompanyProfiles iniciado');
       const { data, error } = await supabase
         .from('company_profiles')
         .select('*')
@@ -52,29 +65,26 @@ export const CompanyProfilesProvider: React.FC<{ children: React.ReactNode }> = 
 
       if (error) throw error;
 
-      console.log('📦 [CONTEXT] Perfis carregados:', data);
       setProfiles(data || []);
       
       const activeProfiles = data?.filter(profile => profile.is_active) || [];
-      console.log('📦 [CONTEXT] Perfis ativos encontrados:', activeProfiles);
       
-      // Verificar se o perfil salvo ainda está ativo
-      const savedProfile = localStorage.getItem('selectedProfile') as BusinessType | null;
+      // Validate saved profile
+      const savedProfile = typeof window !== 'undefined' 
+        ? localStorage.getItem(STORAGE_KEY) as BusinessType | null
+        : null;
       const savedProfileExists = savedProfile && activeProfiles.find(p => p.business_type === savedProfile);
       
       if (savedProfileExists) {
-        console.log('📦 [CONTEXT] Restaurando perfil salvo:', savedProfile);
         setActiveProfile(savedProfile);
       } else if (activeProfiles.length > 0) {
         const newActiveProfile = activeProfiles[0].business_type as BusinessType;
-        console.log('📦 [CONTEXT] Definindo perfil ativo inicial:', newActiveProfile);
         setActiveProfile(newActiveProfile);
       } else {
-        console.log('📦 [CONTEXT] Nenhum perfil ativo, limpando activeProfile');
         setActiveProfile(null);
       }
     } catch (error) {
-      console.error('❌ [CONTEXT] Erro ao buscar perfis da empresa:', error);
+      console.error('Error fetching company profiles:', error);
       toast.error('Erro ao carregar perfis da empresa');
     } finally {
       setIsLoading(false);
@@ -85,22 +95,17 @@ export const CompanyProfilesProvider: React.FC<{ children: React.ReactNode }> = 
     fetchCompanyProfiles();
   }, [fetchCompanyProfiles]);
 
+  // Optimized switch profile with validation
   const switchProfile = useCallback((businessType: BusinessType) => {
-    console.log('🔄 [CONTEXT] switchProfile chamado para:', businessType);
-    console.log('🔄 [CONTEXT] activeProfile antes da troca:', activeProfile);
-    
     const profile = profiles.find(p => p.business_type === businessType);
-    console.log('🔍 [CONTEXT] Perfil encontrado:', profile);
     
     if (profile && profile.is_active) {
-      console.log('✅ [CONTEXT] Mudando perfil ativo de', activeProfile, 'para', businessType);
       setActiveProfile(businessType);
       toast.success(`Perfil alterado para: ${BUSINESS_TYPE_LABELS[businessType]}`);
     } else {
-      console.log('❌ [CONTEXT] Perfil não encontrado ou inativo:', profile);
       toast.error('Perfil não disponível');
     }
-  }, [profiles, activeProfile]);
+  }, [profiles]);
 
   const activateProfile = useCallback(async (businessType: BusinessType) => {
     try {
@@ -177,7 +182,8 @@ export const CompanyProfilesProvider: React.FC<{ children: React.ReactNode }> = 
     }
   }, [profiles, activeProfile, fetchCompanyProfiles]);
 
-  const value: CompanyProfilesContextType = {
+  // Memoized computed values to prevent unnecessary recalculations
+  const value: CompanyProfilesContextType = useMemo(() => ({
     profiles,
     activeProfile,
     isLoading,
@@ -188,7 +194,14 @@ export const CompanyProfilesProvider: React.FC<{ children: React.ReactNode }> = 
     allProfileTypes: profiles.map(p => p.business_type as BusinessType),
     hasProfiles: profiles.length > 0,
     inactiveProfilesCount: profiles.filter(p => !p.is_active).length,
-  };
+  }), [
+    profiles, 
+    activeProfile, 
+    isLoading, 
+    switchProfile, 
+    activateProfile, 
+    deactivateProfile
+  ]);
 
   return (
     <CompanyProfilesContext.Provider value={value}>

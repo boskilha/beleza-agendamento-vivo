@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// Performance optimized dashboard stats with caching
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Building2, Users, ShieldCheck, CreditCard, TrendingUp, Activity } from 'lucide-react';
@@ -11,6 +12,10 @@ interface DashboardStats {
   recentActivity: number;
 }
 
+// Cache duration: 5 minutes
+const CACHE_DURATION = 5 * 60 * 1000;
+let statsCache: { data: DashboardStats; timestamp: number } | null = null;
+
 const SuperAdminDashboard = () => {
   const [stats, setStats] = useState<DashboardStats>({
     totalCompanies: 0,
@@ -21,58 +26,62 @@ const SuperAdminDashboard = () => {
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Get companies count
-        const { count: companiesCount } = await supabase
-          .from('companies')
-          .select('*', { count: 'exact', head: true });
+  const fetchStats = useCallback(async (useCache = true) => {
+    // Check cache first
+    if (useCache && statsCache && Date.now() - statsCache.timestamp < CACHE_DURATION) {
+      setStats(statsCache.data);
+      setIsLoading(false);
+      return;
+    }
 
-        // Get users count
-        const { count: usersCount } = await supabase
-          .from('company_users')
-          .select('*', { count: 'exact', head: true });
+    try {
+      // Use Promise.all for parallel queries instead of sequential
+      const [
+        { count: companiesCount },
+        { count: usersCount },
+        { count: profilesCount },
+        { count: freeCount },
+        { count: recentCount }
+      ] = await Promise.all([
+        supabase.from('companies').select('*', { count: 'exact', head: true }),
+        supabase.from('company_users').select('*', { count: 'exact', head: true }),
+        supabase.from('company_profiles').select('*', { count: 'exact', head: true }).eq('is_active', true),
+        supabase.from('companies').select('*', { count: 'exact', head: true }).eq('subscription_plan', 'free'),
+        supabase.from('companies').select('*', { count: 'exact', head: true }).gte('created_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+      ]);
 
-        // Get active profiles count
-        const { count: profilesCount } = await supabase
-          .from('company_profiles')
-          .select('*', { count: 'exact', head: true })
-          .eq('is_active', true);
+      const newStats = {
+        totalCompanies: companiesCount || 0,
+        totalUsers: usersCount || 0,
+        activeProfiles: profilesCount || 0,
+        freeCompanies: freeCount || 0,
+        recentActivity: recentCount || 0,
+      };
 
-        // Get free plan companies
-        const { count: freeCount } = await supabase
-          .from('companies')
-          .select('*', { count: 'exact', head: true })
-          .eq('subscription_plan', 'free');
+      // Update cache
+      statsCache = {
+        data: newStats,
+        timestamp: Date.now()
+      };
 
-        // Recent activity (companies created in last 30 days)
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        
-        const { count: recentCount } = await supabase
-          .from('companies')
-          .select('*', { count: 'exact', head: true })
-          .gte('created_at', thirtyDaysAgo.toISOString());
-
-        setStats({
-          totalCompanies: companiesCount || 0,
-          totalUsers: usersCount || 0,
-          activeProfiles: profilesCount || 0,
-          freeCompanies: freeCount || 0,
-          recentActivity: recentCount || 0,
-        });
-      } catch (error) {
-        console.error('Error fetching dashboard stats:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchStats();
+      setStats(newStats);
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
 
-  const statCards = [
+  useEffect(() => {
+    fetchStats();
+    
+    // Set up auto-refresh every 30 seconds
+    const interval = setInterval(() => fetchStats(false), 30000);
+    return () => clearInterval(interval);
+  }, [fetchStats]);
+
+  // Memoized stat cards configuration
+  const statCards = useMemo(() => [
     {
       title: 'Total de Empresas',
       value: stats.totalCompanies,
@@ -121,7 +130,7 @@ const SuperAdminDashboard = () => {
       color: 'text-emerald-600',
       bgColor: 'bg-emerald-50',
     },
-  ];
+  ], [stats]);
 
   if (isLoading) {
     return (
@@ -131,7 +140,7 @@ const SuperAdminDashboard = () => {
           <p className="text-slate-600">Visão geral do portal</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
+          {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardHeader className="pb-2">
                 <div className="h-4 bg-slate-200 rounded w-1/2"></div>
@@ -149,9 +158,17 @@ const SuperAdminDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
-        <p className="text-slate-600">Visão geral do portal de administração</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+          <p className="text-slate-600">Visão geral do portal de administração</p>
+        </div>
+        <button 
+          onClick={() => fetchStats(false)}
+          className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
+        >
+          Atualizar dados
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from 'react';
+// Optimized sidebar with React.memo and better performance
+import React, { useMemo, memo } from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import {
   Calendar,
@@ -11,9 +12,7 @@ import {
   Store,
   Factory,
   UserCheck,
-  MessageSquare,
   Boxes,
-  ShoppingBag,
   FileText,
   Truck,
   Building2,
@@ -38,10 +37,11 @@ import { BusinessType } from '@/types/business';
 interface MenuItem {
   title: string;
   path: string;
-  icon: any;
+  icon: React.ComponentType<{ className?: string }>;
   profiles: BusinessType[];
 }
 
+// Moved outside component to prevent recreation on each render
 const menuItems: MenuItem[] = [
   // Beauty Salon (Salão de Beleza)
   {
@@ -87,7 +87,7 @@ const menuItems: MenuItem[] = [
     profiles: ['beauty_salon'],
   },
 
-  // Marketplace Store (Lojista) - Ordem específica solicitada
+  // Marketplace Store (Lojista)
   {
     title: 'Dashboard',
     path: '/lojista',
@@ -158,56 +158,53 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export function UnifiedSidebar() {
+// Memoized menu icon component
+const MenuIcon = memo(({ activeProfile }: { activeProfile: BusinessType | null }) => {
+  if (!activeProfile) return <Store className="h-5 w-5" />;
+  
+  switch (activeProfile) {
+    case 'beauty_salon':
+      return <Scissors className="h-5 w-5" />;
+    case 'marketplace_store':
+      return <Store className="h-5 w-5" />;
+    case 'b2b_supplier':
+      return <Factory className="h-5 w-5" />;
+    default:
+      return <Store className="h-5 w-5" />;
+  }
+});
+
+MenuIcon.displayName = 'MenuIcon';
+
+// Memoized company name function
+const getCompanyName = (activeProfile: BusinessType | null): string => {
+  switch (activeProfile) {
+    case 'beauty_salon':
+      return 'Beleza Agendamento';
+    case 'marketplace_store':
+      return 'Marketplace Store';
+    case 'b2b_supplier':
+      return 'B2B Supplier';
+    default:
+      return 'Gestão Empresarial';
+  }
+};
+
+export const UnifiedSidebar = memo(() => {
   const { state } = useSidebar();
   const location = useLocation();
   const { activeProfile, availableTypes } = useCompanyProfiles();
-  const currentPath = location.pathname;
+  
+  const collapsed = state === 'collapsed';
 
-
-  const getMenuIcon = () => {
-    if (!activeProfile) return <Store className="h-5 w-5" />;
-    
-    switch (activeProfile) {
-      case 'beauty_salon':
-        return <Scissors className="h-5 w-5" />;
-      case 'marketplace_store':
-        return <Store className="h-5 w-5" />;
-      case 'b2b_supplier':
-        return <Factory className="h-5 w-5" />;
-      default:
-        return <Store className="h-5 w-5" />;
-    }
-  };
-
+  // Optimized menu filtering with proper memoization
   const filteredMenuItems = useMemo(() => {
-    console.log('UnifiedSidebar - activeProfile atual:', activeProfile);
-    if (!activeProfile) {
-      console.log('UnifiedSidebar - Nenhum activeProfile, retornando array vazio');
-      return [];
-    }
-    
-    const filtered = menuItems.filter(item => 
-      item.profiles.includes(activeProfile)
-    );
-    console.log('UnifiedSidebar - Itens filtrados para', activeProfile, ':', filtered.map(item => item.title));
-    return filtered;
+    if (!activeProfile) return [];
+    return menuItems.filter(item => item.profiles.includes(activeProfile));
   }, [activeProfile]);
 
-  const getCompanyName = () => {
-    switch (activeProfile) {
-      case 'beauty_salon':
-        return 'Beleza Agendamento';
-      case 'marketplace_store':
-        return 'Marketplace Store';
-      case 'b2b_supplier':
-        return 'B2B Supplier';
-      default:
-        return 'Gestão Empresarial';
-    }
-  };
-
-  const collapsed = state === 'collapsed';
+  // Memoized company name
+  const companyName = useMemo(() => getCompanyName(activeProfile), [activeProfile]);
 
   return (
     <Sidebar
@@ -222,9 +219,9 @@ export function UnifiedSidebar() {
         {!collapsed && (
           <div className="p-4 border-b border-border/50">
             <div className="flex items-center gap-3 mb-3">
-              {getMenuIcon()}
+              <MenuIcon activeProfile={activeProfile} />
               <div>
-                <h2 className="font-semibold text-sm">{getCompanyName()}</h2>
+                <h2 className="font-semibold text-sm">{companyName}</h2>
                 <p className="text-xs text-muted-foreground">Gestão Integrada</p>
               </div>
             </div>
@@ -239,26 +236,23 @@ export function UnifiedSidebar() {
           <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {filteredMenuItems.map((item, index) => {
-                const isActive = currentPath === item.path;
-                return (
-                  <SidebarMenuItem key={`${item.title}-${item.path}-${index}`}>
-                    <SidebarMenuButton asChild>
-                      <NavLink
-                        to={item.path}
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'bg-primary/10 text-primary font-medium border-r-2 border-primary'
-                            : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
-                        }
-                      >
-                        <item.icon className="h-4 w-4" />
-                        {!collapsed && <span>{item.title}</span>}
-                      </NavLink>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                );
-              })}
+              {filteredMenuItems.map((item, index) => (
+                <SidebarMenuItem key={`${item.title}-${item.path}-${index}`}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.path}
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'bg-primary/10 text-primary font-medium border-r-2 border-primary'
+                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+                      }
+                    >
+                      <item.icon className="h-4 w-4" />
+                      {!collapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -276,4 +270,6 @@ export function UnifiedSidebar() {
       )}
     </Sidebar>
   );
-}
+});
+
+UnifiedSidebar.displayName = 'UnifiedSidebar';
