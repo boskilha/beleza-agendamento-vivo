@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Factory, Scissors, Store, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -26,7 +27,30 @@ const getBusinessIcon = (type: BusinessType) => {
 
 export function ProfileSelector() {
   const { activeProfile, availableTypes, switchProfile } = useCompanyProfiles();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleProfileSwitch = (type: BusinessType) => {
+    console.log('Switching to profile:', type);
+    switchProfile(type);
+    
+    // Navegar para o dashboard específico do perfil
+    switch (type) {
+      case 'beauty_salon':
+        navigate('/admin/dashboard');
+        break;
+      case 'marketplace_store':
+        navigate('/lojista');
+        break;
+      case 'b2b_supplier':
+        navigate('/fornecedor');
+        break;
+      default:
+        navigate('/admin/dashboard');
+    }
+    
+    setIsOpen(false);
+  };
 
   if (!activeProfile || availableTypes.length <= 1) {
     return null;
@@ -52,17 +76,14 @@ export function ProfileSelector() {
         {availableTypes.map((type) => (
           <DropdownMenuItem
             key={type}
-            onClick={() => {
-              switchProfile(type);
-              setIsOpen(false);
-            }}
-            className={`flex items-center gap-2 ${
-              activeProfile === type ? 'bg-muted' : ''
-            }`}
-          >
-            {getBusinessIcon(type)}
-            <span>{BUSINESS_TYPE_LABELS[type]}</span>
-          </DropdownMenuItem>
+             onClick={() => handleProfileSwitch(type)}
+             className={`flex items-center gap-2 ${
+               activeProfile === type ? 'bg-muted' : ''
+             }`}
+           >
+             {getBusinessIcon(type)}
+             <span>{BUSINESS_TYPE_LABELS[type]}</span>
+           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex items-center gap-2">
