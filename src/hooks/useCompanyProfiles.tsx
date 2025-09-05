@@ -29,15 +29,19 @@ export const useCompanyProfiles = () => {
       console.log('Perfis carregados:', data);
       setProfiles(data || []);
       
-      // Definir perfil ativo padrão sempre que houver perfis ativos
+      // Definir perfil ativo padrão apenas se não houver um já selecionado
       const activeProfiles = data?.filter(profile => profile.is_active) || [];
       console.log('Perfis ativos encontrados:', activeProfiles);
       
       if (activeProfiles.length > 0) {
-        // Sempre definir o primeiro perfil ativo, mesmo se já houver um activeProfile
-        const newActiveProfile = activeProfiles[0].business_type as BusinessType;
-        console.log('Definindo perfil ativo:', newActiveProfile);
-        setActiveProfile(newActiveProfile);
+        // Só definir automaticamente se não houver um perfil ativo ou se o atual não estiver mais ativo
+        if (!activeProfile || !activeProfiles.find(p => p.business_type === activeProfile)) {
+          const newActiveProfile = activeProfiles[0].business_type as BusinessType;
+          console.log('Definindo perfil ativo inicial:', newActiveProfile);
+          setActiveProfile(newActiveProfile);
+        } else {
+          console.log('Mantendo perfil ativo atual:', activeProfile);
+        }
       } else {
         // Se não há perfis ativos, limpar o perfil ativo
         console.log('Nenhum perfil ativo, limpando activeProfile');
