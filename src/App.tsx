@@ -34,6 +34,7 @@ import LojistaConfiguracoes from "./pages/lojista/Configuracoes";
 // Fornecedor Pages
 import FornecedorLayout from "./components/fornecedor/FornecedorLayout";
 import FornecedorDashboard from "./pages/fornecedor/Dashboard";
+import FornecedorProdutos from "./pages/fornecedor/Produtos";
 import FornecedorPedidos from "./pages/fornecedor/Pedidos";
 import FornecedorClientes from "./pages/fornecedor/Clientes";
 import FornecedorConfiguracoes from "./pages/fornecedor/Configuracoes";
@@ -131,13 +132,15 @@ function App() {
                   <Route path="configuracoes" element={<LojistaConfiguracoes />} />
                 </Route>
                 
-                {/* Fornecedor routes - redirected to unified admin */}
+                {/* Fornecedor routes */}
                 <Route path="/fornecedor" element={
                   <ProtectedRoute>
-                    <UnifiedLayout />
+                    <FornecedorLayout />
                   </ProtectedRoute>
                 }>
-                  <Route index element={<UnifiedDashboard />} />
+                  <Route index element={<FornecedorDashboard />} />
+                  <Route path="dashboard" element={<FornecedorDashboard />} />
+                  <Route path="produtos" element={<FornecedorProdutos />} />
                   <Route path="pedidos" element={<FornecedorPedidos />} />
                   <Route path="clientes" element={<FornecedorClientes />} />
                   <Route path="configuracoes" element={<FornecedorConfiguracoes />} />
