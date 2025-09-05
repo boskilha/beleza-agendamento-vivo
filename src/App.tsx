@@ -52,6 +52,13 @@ import AdminAgendamentos from "./pages/Admin/Agendamentos";
 import UnifiedLayout from "./components/shared/UnifiedLayout";
 import { UnifiedDashboard } from "./components/shared/UnifiedDashboard";
 
+// Super Admin Layout and Pages
+import SuperAdminLayout from "./components/SuperAdmin/SuperAdminLayout";
+import SuperAdminProtectedRoute from "./components/SuperAdmin/SuperAdminProtectedRoute";
+import SuperAdminDashboard from "./pages/SuperAdmin/Dashboard";
+import SuperAdminEmpresas from "./pages/SuperAdmin/Empresas";
+import SuperAdminUsuarios from "./pages/SuperAdmin/Usuarios";
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -77,6 +84,21 @@ function App() {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 
+                {/* Super Admin Routes */}
+                <Route path="/super-admin/*" element={
+                  <SuperAdminProtectedRoute>
+                    <SuperAdminLayout />
+                  </SuperAdminProtectedRoute>
+                }>
+                  <Route path="dashboard" element={<SuperAdminDashboard />} />
+                  <Route path="empresas" element={<SuperAdminEmpresas />} />
+                  <Route path="usuarios" element={<SuperAdminUsuarios />} />
+                  <Route path="perfis" element={<div>Perfis - Em desenvolvimento</div>} />
+                  <Route path="planos" element={<div>Planos - Em desenvolvimento</div>} />
+                  <Route path="configuracoes" element={<div>Configurações - Em desenvolvimento</div>} />
+                  <Route path="auditoria" element={<div>Auditoria - Em desenvolvimento</div>} />
+                </Route>
+
                 {/* Unified Admin Area */}
                 <Route path="/admin" element={
                   <ProtectedRoute>
