@@ -175,7 +175,7 @@ const Checkout = () => {
               asChild
               className="flex items-center gap-2"
             >
-              <Link to="/marketplace/cart">
+              <Link to="/cart">
                 <ArrowLeft className="w-4 h-4" />
                 Voltar ao carrinho
               </Link>
