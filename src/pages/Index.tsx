@@ -13,6 +13,9 @@ import StructuredData from "@/components/SEO/StructuredData";
 import step1Image from "@/assets/step-1-find-salon.jpg";
 import step2Image from "@/assets/step-2-choose-service.jpg";
 import step3Image from "@/assets/step-3-book-online.jpg";
+import haircutService from "@/assets/haircut-service.jpg";
+import manicureService from "@/assets/manicure-service.jpg";
+import naturalSoap from "@/assets/natural-soap.jpg";
 
 const services = [
   {
@@ -20,14 +23,14 @@ const services = [
     title: "Corte de Cabelo",
     description: "Cortes modernos para todos os estilos, com profissionais especializados em valorizar seu tipo de cabelo.",
     price: "A partir de R$50",
-    image: "https://images.unsplash.com/photo-1560869713-7d0a29430cdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    image: haircutService
   },
   {
     id: 2,
     title: "Manicure",
     description: "Unhas perfeitas com os melhores produtos e técnicas, desde o básico até nail arts elaboradas.",
     price: "A partir de R$35",
-    image: "https://images.unsplash.com/photo-1607979036079-64fce335adaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    image: manicureService
   },
   {
     id: 3,
@@ -68,7 +71,7 @@ const featuredProducts: Product[] = [
     id: "3",
     name: "Sabonete Natural Lavanda",
     price: 24.90,
-    image: "https://images.unsplash.com/photo-1556228578-dd6b7b2c7d34?w=500",
+    image: naturalSoap,
     category: "Cosméticos",
     seller: "Natureza Viva",
     rating: 4.9,
