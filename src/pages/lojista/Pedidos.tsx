@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Filter, Eye, Package } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Package, ShoppingCart, Eye } from "lucide-react";
+import PedidosReais from "./PedidosReais";
 
 const mockOrders = [
   {
@@ -54,78 +54,77 @@ const statusConfig = {
 const LojistaPedidos = () => {
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight text-foreground">Pedidos</h2>
-        <p className="text-muted-foreground">
-          Gerencie todos os pedidos da sua loja.
-        </p>
-      </div>
-
-      <div className="flex gap-4">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Buscar pedidos..." 
-            className="pl-10"
-          />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Pedidos</h1>
+          <p className="text-gray-600">Gerencie todos os pedidos recebidos</p>
         </div>
-        <Select>
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Status do pedido" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Todos os status</SelectItem>
-            <SelectItem value="pending">Pendentes</SelectItem>
-            <SelectItem value="processing">Processando</SelectItem>
-            <SelectItem value="shipped">Enviados</SelectItem>
-            <SelectItem value="delivered">Entregues</SelectItem>
-          </SelectContent>
-        </Select>
-        <Button variant="outline">
-          <Filter className="h-4 w-4 mr-2" />
-          Mais Filtros
-        </Button>
       </div>
 
-      <div className="grid gap-4">
-        {mockOrders.map((order) => (
-          <Card key={order.id}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-foreground">{order.id}</h3>
-                    <Badge 
-                      variant={statusConfig[order.status as keyof typeof statusConfig].variant}
-                      className={statusConfig[order.status as keyof typeof statusConfig].color}
-                    >
+      <Tabs defaultValue="real" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="real" className="gap-2">
+            <ShoppingCart className="h-4 w-4" />
+            Pedidos do Marketplace
+          </TabsTrigger>
+          <TabsTrigger value="mock" className="gap-2">
+            <Package className="h-4 w-4" />
+            Pedidos Exemplo
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="real">
+          <PedidosReais />
+        </TabsContent>
+
+        <TabsContent value="mock">
+          <div className="space-y-4">
+            {mockOrders.map((order) => (
+              <Card key={order.id}>
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">{order.id}</CardTitle>
+                      <p className="text-sm text-gray-600">{order.date}</p>
+                    </div>
+                    <Badge className={statusConfig[order.status as keyof typeof statusConfig].color}>
                       {statusConfig[order.status as keyof typeof statusConfig].label}
                     </Badge>
                   </div>
-                  <p className="text-sm font-medium text-foreground">{order.customer}</p>
-                  <p className="text-sm text-muted-foreground">{order.products}</p>
-                  <p className="text-sm text-muted-foreground">Pagamento: {order.payment}</p>
-                </div>
-                
-                <div className="text-right space-y-2">
-                  <p className="text-lg font-bold text-primary">{order.total}</p>
-                  <p className="text-sm text-muted-foreground">{order.date}</p>
-                  <div className="flex gap-2">
-                    <Button variant="outline" size="sm">
-                      <Eye className="h-4 w-4 mr-2" />
-                      Detalhes
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      <Package className="h-4 w-4 mr-2" />
-                      Ações
-                    </Button>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">Cliente</p>
+                      <p className="text-sm text-gray-900">{order.customer}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">Produtos</p>
+                      <p className="text-sm text-gray-900">{order.products}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">Pagamento</p>
+                      <p className="text-sm text-gray-900">{order.payment}</p>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                  
+                  <div className="flex justify-between items-center pt-2 border-t">
+                    <div className="text-lg font-bold text-green-700">
+                      {order.total}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button variant="outline" size="sm" className="gap-2">
+                        <Eye className="h-4 w-4" />
+                        Ver detalhes
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

@@ -22,6 +22,7 @@ import Marketplace from "./pages/marketplace/Marketplace";
 import ProductDetail from "./pages/marketplace/ProductDetail";
 import Cart from "./pages/marketplace/Cart";
 import Checkout from "./pages/marketplace/Checkout";
+import OrderSuccess from "./pages/marketplace/OrderSuccess";
 
 // Lojista Pages
 import LojistaLayout from "./components/lojista/LojistaLayout";
@@ -85,6 +86,7 @@ function App() {
                 <Route path="/produto/:id" element={<ProductDetail />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/order-success" element={<OrderSuccess />} />
                 
                 {/* Super Admin Routes */}
                 <Route path="/super-admin/*" element={
