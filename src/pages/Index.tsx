@@ -10,6 +10,12 @@ import Header from "@/components/Header";
 import { useAuth } from "@/hooks/useAuth";
 import { useSEO, createOrganizationSchema } from "@/hooks/useSEO";
 import StructuredData from "@/components/SEO/StructuredData";
+import step1Image from "@/assets/step-1-find-salon.jpg";
+import step2Image from "@/assets/step-2-choose-service.jpg";
+import step3Image from "@/assets/step-3-book-online.jpg";
+import haircutService from "@/assets/haircut-service.jpg";
+import manicureService from "@/assets/manicure-service.jpg";
+import naturalSoap from "@/assets/natural-soap.jpg";
 
 const services = [
   {
@@ -17,14 +23,14 @@ const services = [
     title: "Corte de Cabelo",
     description: "Cortes modernos para todos os estilos, com profissionais especializados em valorizar seu tipo de cabelo.",
     price: "A partir de R$50",
-    image: "https://images.unsplash.com/photo-1560869713-7d0a29430cdb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    image: haircutService
   },
   {
     id: 2,
     title: "Manicure",
     description: "Unhas perfeitas com os melhores produtos e técnicas, desde o básico até nail arts elaboradas.",
     price: "A partir de R$35",
-    image: "https://images.unsplash.com/photo-1607979036079-64fce335adaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    image: manicureService
   },
   {
     id: 3,
@@ -65,7 +71,7 @@ const featuredProducts: Product[] = [
     id: "3",
     name: "Sabonete Natural Lavanda",
     price: 24.90,
-    image: "https://images.unsplash.com/photo-1556228578-dd6b7b2c7d34?w=500",
+    image: naturalSoap,
     category: "Cosméticos",
     seller: "Natureza Viva",
     rating: 4.9,
@@ -275,19 +281,40 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
               <div className="flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">1</div>
+                <div className="relative mb-6">
+                  <img 
+                    src={step1Image} 
+                    alt="Interface de busca de salões no smartphone"
+                    className="w-32 h-32 object-cover rounded-lg shadow-lg"
+                  />
+                  <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center text-white text-lg font-bold">1</div>
+                </div>
                 <h3 className="text-xl font-serif mb-3">Encontre um salão</h3>
                 <p className="text-gray-600">Busque por localização, serviço ou nome do salão para encontrar opções que atendam às suas necessidades</p>
               </div>
               
               <div className="flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">2</div>
+                <div className="relative mb-6">
+                  <img 
+                    src={step2Image} 
+                    alt="Tela de comparação de serviços de beleza com preços"
+                    className="w-32 h-32 object-cover rounded-lg shadow-lg"
+                  />
+                  <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center text-white text-lg font-bold">2</div>
+                </div>
                 <h3 className="text-xl font-serif mb-3">Escolha o serviço</h3>
                 <p className="text-gray-600">Compare preços, avaliações e disponibilidade de diferentes profissionais e serviços</p>
               </div>
               
               <div className="flex flex-col items-center">
-                <div className="w-16 h-16 rounded-full bg-purple-800 flex items-center justify-center mb-6 text-white text-xl font-bold">3</div>
+                <div className="relative mb-6">
+                  <img 
+                    src={step3Image} 
+                    alt="Interface de agendamento online com calendário"
+                    className="w-32 h-32 object-cover rounded-lg shadow-lg"
+                  />
+                  <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-purple-800 flex items-center justify-center text-white text-lg font-bold">3</div>
+                </div>
                 <h3 className="text-xl font-serif mb-3">Agende online</h3>
                 <p className="text-gray-600">Escolha o melhor horário para você e confirme seu agendamento em poucos cliques</p>
               </div>

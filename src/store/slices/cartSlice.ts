@@ -9,6 +9,16 @@ export interface CartItem {
   image?: string;
   seller: string;
   category: string;
+  type: 'product' | 'service';
+  // Service-specific fields
+  serviceDate?: string;
+  serviceTime?: string;
+  salonId?: string;
+  employeeId?: string;
+  duration?: number;
+  // Product-specific fields
+  supplierId?: string;
+  companyId?: string;
 }
 
 interface CartState {

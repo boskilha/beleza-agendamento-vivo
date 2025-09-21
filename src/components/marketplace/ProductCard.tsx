@@ -36,6 +36,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
       image: product.image,
       seller: product.seller,
       category: product.category,
+      type: 'product' as const,
     }));
   };
 

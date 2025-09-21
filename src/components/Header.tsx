@@ -125,7 +125,7 @@ const Header = () => {
           </Button>
           
           <Button variant="ghost" size="icon" className="relative" asChild>
-            <Link to="/marketplace/cart">
+            <Link to="/cart">
               <ShoppingCart className="h-5 w-5" />
               {cartItemsCount > 0 && <span className="absolute -top-1 -right-1 bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartItemsCount}
@@ -196,7 +196,7 @@ const Header = () => {
               <Link to="/marketplace?mumbuca=true" className="block py-2 pl-4 text-sm rounded-md hover:bg-accent bg-accent/20" onClick={() => setMobileMenuOpen(false)}>
                 🪙 Mumbuca Aceita
               </Link>
-              <Link to="/marketplace/cart" className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
+              <Link to="/cart" className="flex items-center justify-between py-2 pl-4 text-sm rounded-md hover:bg-accent" onClick={() => setMobileMenuOpen(false)}>
                 <span>Carrinho</span>
                 {cartItemsCount > 0 && <span className="bg-purple-800 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center mr-2">
                     {cartItemsCount}

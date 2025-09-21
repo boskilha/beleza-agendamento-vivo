@@ -243,6 +243,128 @@ export type Database = {
           },
         ]
       }
+      order_items: {
+        Row: {
+          appointment_date: string | null
+          appointment_time: string | null
+          created_at: string
+          employee_id: string | null
+          id: string
+          item_name: string
+          order_id: string
+          product_id: string | null
+          quantity: number
+          service_id: string | null
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          created_at?: string
+          employee_id?: string | null
+          id?: string
+          item_name: string
+          order_id: string
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          created_at?: string
+          employee_id?: string | null
+          id?: string
+          item_name?: string
+          order_id?: string
+          product_id?: string | null
+          quantity?: number
+          service_id?: string | null
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employees"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          company_id: string
+          created_at: string
+          customer_address: Json | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          id: string
+          notes: string | null
+          order_type: string
+          payment_method: string | null
+          status: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          customer_address?: Json | null
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          id?: string
+          notes?: string | null
+          order_type: string
+          payment_method?: string | null
+          status?: string
+          total_amount: number
+          updated_at?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          customer_address?: Json | null
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          id?: string
+          notes?: string | null
+          order_type?: string
+          payment_method?: string | null
+          status?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       portal_super_admins: {
         Row: {
           created_at: string
