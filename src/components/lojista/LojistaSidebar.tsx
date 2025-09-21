@@ -23,6 +23,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProfileSelector } from "@/components/shared/ProfileSelector";
+import { useCompanyProfiles } from "@/hooks/useCompanyProfiles";
 
 const menuItems = [
   {
@@ -56,6 +58,7 @@ export const LojistaSidebar = React.memo(() => {
   const { state } = useSidebar();
   const location = useLocation();
   const collapsed = state === "collapsed";
+  const { availableTypes } = useCompanyProfiles();
 
   return (
     <Sidebar className={collapsed ? "w-14" : "w-60"} collapsible="icon">
@@ -105,6 +108,11 @@ export const LojistaSidebar = React.memo(() => {
       {!collapsed && (
         <SidebarFooter className="border-t border-sidebar-border bg-sidebar p-4">
           <div className="space-y-3">
+            {availableTypes.length > 1 && (
+              <div className="pb-3 border-b border-sidebar-border">
+                <ProfileSelector />
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-sidebar-foreground">Plano Atual</span>
               <Badge variant="secondary" className="bg-sidebar-accent text-sidebar-accent-foreground">

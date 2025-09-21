@@ -27,9 +27,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ProfileSelector } from './ProfileSelector';
 import { useCompanyProfiles } from '@/hooks/useCompanyProfiles';
 import { BusinessType } from '@/types/business';
@@ -207,48 +210,42 @@ export const UnifiedSidebar = memo(() => {
   const companyName = useMemo(() => getCompanyName(activeProfile), [activeProfile]);
 
   return (
-    <Sidebar
-      className={`${
-        collapsed ? 'w-14' : 'w-60'
-      } bg-gradient-to-b from-background to-muted/50 border-r border-border/50`}
-      collapsible="icon"
-    >
-      <SidebarTrigger className="m-2 self-end" />
-
-      <SidebarContent>
-        {!collapsed && (
-          <div className="p-4 border-b border-border/50">
-            <div className="flex items-center gap-3 mb-3">
-              <MenuIcon activeProfile={activeProfile} />
-              <div>
-                <h2 className="font-semibold text-sm">{companyName}</h2>
-                <p className="text-xs text-muted-foreground">Gestão Integrada</p>
-              </div>
-            </div>
-            
-            {availableTypes.length > 1 && (
-              <ProfileSelector />
-            )}
+    <Sidebar className={collapsed ? "w-14" : "w-60"} collapsible="icon">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar p-4">
+        <div className="flex items-center gap-3">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+            <MenuIcon activeProfile={activeProfile} />
           </div>
-        )}
+          {!collapsed && (
+            <div>
+              <h2 className="text-lg font-semibold text-sidebar-foreground">{companyName}</h2>
+              <p className="text-xs text-sidebar-muted-foreground">Gestão Integrada</p>
+            </div>
+          )}
+        </div>
+      </SidebarHeader>
+
+      <SidebarContent className="bg-sidebar">
 
         <SidebarGroup>
-          <SidebarGroupLabel>Menu Principal</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-sidebar-muted-foreground">Menu Principal</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-1">
               {filteredMenuItems.map((item, index) => (
                 <SidebarMenuItem key={`${item.title}-${item.path}-${index}`}>
                   <SidebarMenuButton asChild>
                     <NavLink
                       to={item.path}
                       className={({ isActive }) =>
-                        isActive
-                          ? 'bg-primary/10 text-primary font-medium border-r-2 border-primary'
-                          : 'hover:bg-muted/50 text-muted-foreground hover:text-foreground'
+                        `flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                          isActive
+                            ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+                            : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                        }`
                       }
                     >
-                      <item.icon className="h-4 w-4" />
-                      {!collapsed && <span>{item.title}</span>}
+                      <item.icon className="h-4 w-4 flex-shrink-0" />
+                      {!collapsed && <span className="truncate">{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -259,12 +256,29 @@ export const UnifiedSidebar = memo(() => {
       </SidebarContent>
 
       {!collapsed && (
-        <SidebarFooter>
-          <div className="p-3 text-xs text-muted-foreground">
-            <p>Plano: Empresarial</p>
-            <button className="text-primary hover:underline cursor-pointer">
-              Fazer upgrade
-            </button>
+        <SidebarFooter className="border-t border-sidebar-border bg-sidebar p-4">
+          <div className="space-y-3">
+            {availableTypes.length > 1 && (
+              <div className="pb-3 border-b border-sidebar-border">
+                <ProfileSelector />
+              </div>
+            )}
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-sidebar-foreground">Plano Atual</span>
+              <Badge variant="secondary" className="bg-sidebar-accent text-sidebar-accent-foreground">
+                Empresarial
+              </Badge>
+            </div>
+            <p className="text-xs text-sidebar-muted-foreground leading-relaxed">
+              Gerencie todos os seus negócios em um só lugar
+            </p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="w-full border-sidebar-border bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 hover:border-sidebar-accent"
+            >
+              Fazer Upgrade
+            </Button>
           </div>
         </SidebarFooter>
       )}

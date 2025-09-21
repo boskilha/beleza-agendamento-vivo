@@ -166,11 +166,6 @@ const Index = () => {
                   <Link to="/auth">Cadastrar Empresa</Link>
                 </Button>
               )}
-              {user && (
-                <Button asChild variant="secondary" size="lg" className="text-lg px-8">
-                  <Link to="/admin">Painel Administrativo</Link>
-                </Button>
-              )}
             </div>
           </div>
         </section>
